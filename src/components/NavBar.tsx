@@ -80,7 +80,7 @@ const NavBar = () => {
         </Link>
         <Link to="/explore" className="text-gray-500 hover:text-[#B82132]">Explore</Link>
         <Link to="/aboutus" className="text-gray-500 hover:text-[#B82132]">About Us</Link>
-        <Link to="#" className="text-gray-500 hover:text-[#B82132]">Contact Us</Link>
+        <Link to="/contactus" className="text-gray-500 hover:text-[#B82132]">Contact Us</Link>
         {role === "admin" && (
             <Link to="/manage" className="text-gray-500 hover:text-[#B82132] font-semibold">
             Manage

@@ -20,7 +20,7 @@ const ManagePage = () => {
             <button
             key={title}
             onClick={() => navigate(path)}
-            className={`${color} text-white text-3xl font-bold rounded-lg shadow-lg flex items-center justify-center hover:scale-105 transition-transform`}
+            className={`${color} text-white text-3xl font-bold rounded-lg shadow-lg flex items-center justify-center hover:scale-105 transition-transform cursor-pointer`}
             style={{ minHeight: "40vh" }}
             aria-label={title}
             >
