@@ -1,7 +1,33 @@
 import { Link, useNavigate } from "react-router";
+import { useCreateUser } from "../api/useCreateUser";
+import { z } from "zod"
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+// import type user
+
+const registerSchema = z.object({
+    name : z.string().min(3).max(20),
+    password: z.string().min(8),
+    email : z.string().email(),
+    confirmPassword : z.string().min(8)
+}).refine((data) => data.password === data.confirmPassword, {
+    path: ["confirmPassword"]
+  });
+
+type RegisterSchema = z.infer<typeof registerSchema>
 
 const RegisterPage = () => {
+    const form = useForm<RegisterSchema>({
+        resolver: zodResolver(registerSchema)
+    })
     const navigate = useNavigate();
+
+    const {createUserLoading, createUserError, handleCreateUser} = useCreateUser();
+
+    const onSubmit = async (data: RegisterSchema) => {
+        const { confirmPassword, ...payload } = data;
+        handleCreateUser(payload);
+    }
 
     return (
         <section className=" min-h-screen flex items-center justify-center">
@@ -15,22 +41,33 @@ const RegisterPage = () => {
                 </button>
                 
                 <div className="md:w-1/2 px-8 md:px-16">
-                <h2 className="font-bold text-2xl text-[#B82132]">Register</h2>
+                <h2 className="font-bold text-2xl text-[#B82132] mt-15">Register</h2>
                 <p className="text-xs mt-4 text-[#D2665A]">Create your account to get started</p>
 
-                <form action="" className="flex flex-col gap-4">
-                    <input className="p-2 mt-8 rounded-xl border border-[#F2B28C] focus:outline-none focus:ring-2 focus:ring-[#D2665A]" type="text" name="name" placeholder="Full Name" />
-                    <input className="p-2 rounded-xl border border-[#F2B28C] focus:outline-none focus:ring-2 focus:ring-[#D2665A]" type="email" name="email" placeholder="Email" />
+                <form action="" className="flex flex-col gap-4" onSubmit={form.handleSubmit(onSubmit)}>
+                    <input className="p-2 mt-8 rounded-xl border border-[#F2B28C] focus:outline-none focus:ring-2 focus:ring-[#D2665A]" type="text" placeholder="Full Name" {...form.register("name")}/>
+                    {form.formState.errors.name  && <p className="mt-1 text-sm text-red-500 bg-red-50 px-3 py-1 rounded">{form.formState.errors.name.message}</p>}
+
+                    <input className="p-2 rounded-xl border border-[#F2B28C] focus:outline-none focus:ring-2 focus:ring-[#D2665A]" type="email" placeholder="Email" {...form.register("email")}/>
+                    {form.formState.errors.email && <p className="mt-1 text-sm text-red-500 bg-red-50 px-3 py-1 rounded">{form.formState.errors.email.message}</p>}
+                    
+
                     
                     <div className="relative">
-                    <input className="p-2 rounded-xl border w-full border-[#F2B28C] focus:outline-none focus:ring-2 focus:ring-[#D2665A]" type="password" name="password" placeholder="Password" />
+                    <input className="p-2 rounded-xl border w-full border-[#F2B28C] focus:outline-none focus:ring-2 focus:ring-[#D2665A]" type="password" placeholder="Password" {...form.register("password")}/>
                     </div>
+                    {form.formState.errors.password && <p className="mt-1 text-sm text-red-500 bg-red-50 px-3 py-1 rounded">{form.formState.errors.password.message}</p>}
+
 
                     <div className="relative">
-                    <input className="p-2 rounded-xl border w-full border-[#F2B28C] focus:outline-none focus:ring-2 focus:ring-[#D2665A]" type="password" name="confirmPassword" placeholder="Confirm Password" />
+                    <input className="p-2 rounded-xl border w-full border-[#F2B28C] focus:outline-none focus:ring-2 focus:ring-[#D2665A]" type="password" placeholder="Confirm Password" {...form.register("confirmPassword")}/>
                     </div>
+                    {form.formState.errors.confirmPassword && <p className="mt-1 text-sm text-red-500 bg-red-50 px-3 py-1 rounded">{form.formState.errors.confirmPassword.message}</p>}
+
 
                     <button className="bg-[#B82132] text-white rounded-xl py-2 hover:bg-[#D2665A] duration-300">Register</button>
+                    {createUserLoading && <p className="text-blue-600 text-sm animate-pulse">Loading...</p>}
+                    {createUserError && <p className="mt-1 text-sm text-red-500 bg-red-50 px-3 py-1 rounded">Error occured while registering</p> }
                 </form>
 
                 <div className="mt-3 text-xs flex justify-between items-center text-[#B82132]">
