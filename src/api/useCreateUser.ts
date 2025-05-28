@@ -1,6 +1,9 @@
 import { useState } from "react";
 
-import axios from "axios";
+// import axios from "axios";
+
+// import { AxiosInstance } from "axios";
+import { axiosInstance } from "../lib/axiosInstance";
 
 type user = {
     name : string,
@@ -17,7 +20,7 @@ export const useCreateUser = () =>{
         try {
             setCreateUserLoading(true)  
             // end point API untuk user  
-            await axios.post("", {
+            await axiosInstance.post("/user", {
                 name : payload.name,
                 email : payload.email,
                 password : payload.password

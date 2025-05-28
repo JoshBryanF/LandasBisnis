@@ -51,11 +51,6 @@ const NavBar = () => {
     navigate("/login");
   };
 
-  const handleFakeLogin = (role: "admin" | "user") => {
-    localStorage.setItem("user", JSON.stringify({ role }));
-    setRole(role);
-    navigate("/");
-  };
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -99,38 +94,30 @@ const NavBar = () => {
       </form>
 
       <div className="flex items-center gap-2">
-        {!role ? (
-            <>
-            <button
-                onClick={() => handleFakeLogin("user")}
-                className="bg-[#F2B28C] text-[#B82132] px-3 py-1 text-sm rounded-xl hover:bg-[#F6DED8] transition"
-            >
-                Login as User
-            </button>
-            <button
-                onClick={() => handleFakeLogin("admin")}
-                className="bg-[#F2B28C] text-[#B82132] px-3 py-1 text-sm rounded-xl hover:bg-[#F6DED8] transition"
-            >
-                Login as Admin
-            </button>
-            </>
-        ) : (
-            <>
-            <Link
-                to="/start-project"
-                className="bg-[#F6DED8] text-[#B82132] px-4 py-2 rounded-xl hover:bg-[#F2B28C] transition text-sm font-medium"
-            >
-                Start Project
-            </Link>
-            <button
-                onClick={handleLogout}
-                className="bg-[#B82132] text-white px-4 py-2 rounded-xl hover:bg-[#D2665A] transition"
-            >
-                Logout
-            </button>
-            </>
-        )}
-    </div>
+  {!role ? (
+    <Link
+      to="/login"
+      className="bg-[#F2B28C] text-[#B82132] px-4 py-2 rounded-xl hover:bg-[#F6DED8] transition text-sm font-medium"
+    >
+      Login
+    </Link>
+  ) : (
+    <>
+      <Link
+        to="/start-project"
+        className="bg-[#F6DED8] text-[#B82132] px-4 py-2 rounded-xl hover:bg-[#F2B28C] transition text-sm font-medium"
+      >
+        Start Project
+      </Link>
+      <button
+        onClick={handleLogout}
+        className="bg-[#B82132] text-white px-4 py-2 rounded-xl hover:bg-[#D2665A] transition"
+      >
+        Logout
+      </button>
+    </>
+  )}
+</div>
     </section>
   );
 };

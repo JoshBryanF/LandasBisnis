@@ -27,6 +27,7 @@ const RegisterPage = () => {
     const onSubmit = async (data: RegisterSchema) => {
         const { confirmPassword, ...payload } = data;
         handleCreateUser(payload);
+        navigate("/")
     }
 
     return (

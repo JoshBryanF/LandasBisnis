@@ -1,8 +1,31 @@
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router";
+import { z } from "zod";
+import { useLogin } from "../api/useLogin";
+
+const loginSchema = z.object({
+  email: z.string().email("Format email salah"),
+  password: z.string().min(1, "Password wajib diisi"),
+});
+
+type LoginSchema = z.infer<typeof loginSchema>;
 
 
 const LoginPage = () => {
     const navigate = useNavigate();
+    const form = useForm<LoginSchema>({
+        resolver: zodResolver(loginSchema),
+    });
+
+    const { handleLogin, loginError } = useLogin();
+
+    const onSubmit = async (data: LoginSchema) => {
+    // e.preventDefault();
+    handleLogin(data);
+  };
+
+
     return (
         <section className=" min-h-screen flex items-center justify-center">
             <div className="flex rounded-1xl shadow-lg max-w-3xl p-5 items-center relative">
@@ -18,13 +41,18 @@ const LoginPage = () => {
                     <h2 className="font-bold text-2xl text-[#B82132]">Login</h2>
                     <p className="text-xs mt-4 text-[#B82132]">Log in if you already have an account</p>
 
-                    <form action="" className="flex flex-col gap-4">
-                        <input className="p-2 mt-8 rounded-xl border border-[#F2B28C]" type="email" name="email" placeholder="Email" />
-                        
+                    <form action="" className="flex flex-col gap-4" onSubmit={form.handleSubmit(onSubmit)}>
+                        <input className="p-2 mt-8 rounded-xl border border-[#F2B28C]" type="email" placeholder="Email" {...form.register("email")}/>
+                        {form.formState.errors.email && <p className="mt-1 text-sm text-red-500 bg-red-50 px-3 py-1 rounded">{form.formState.errors.email.message}</p>}
+
+
                         <div className="relative">
-                        <input className="p-2 rounded-xl border border-[#F2B28C] w-full" type="password" name="password" placeholder="Password" />
+                        <input className="p-2 rounded-xl border border-[#F2B28C] w-full" type="password" placeholder="Password" {...form.register("password")}/>
+                        {form.formState.errors.password && <p className="mt-1 text-sm text-red-500 bg-red-50 px-3 py-1 rounded">{form.formState.errors.password.message}</p>}
                         </div>
+
                         <button className="bg-[#B82132] rounded-xl text-white py-2 hover:bg-[#F6DED8] duration-300">Login</button>
+                        {loginError && <p>error bg</p> }
                     </form>
 
                     

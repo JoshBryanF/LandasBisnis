@@ -1,0 +1,126 @@
+{
+  "user": [
+    {
+      "_id": {
+        "$oid": "6650e1c00100000000000001"
+      },
+      "Name": "Admin Satu",
+      "Email": "admin1@example.com",
+      "Password": "hashedpass1",
+      "CanManageAdmins": true,
+      "CanManageUsers": true,
+      "CanManageEvents": false,
+      "CanManageStatus": true,
+      "_t": [
+        "User",
+        "Admin"
+      ],
+      "id": "2151"
+    },
+    {
+      "_id": {
+        "$oid": "6650e1c00100000000000002"
+      },
+      "Name": "Admin Dua",
+      "Email": "admin2@example.com",
+      "Password": "hashedpass2",
+      "CanManageAdmins": false,
+      "CanManageUsers": true,
+      "CanManageEvents": true,
+      "CanManageStatus": false,
+      "_t": [
+        "User",
+        "Admin"
+      ],
+      "id": "4738"
+    },
+    {
+      "_id": {
+        "$oid": "6650e1c00100000000000003"
+      },
+      "Name": "Sponsor Alpha",
+      "Email": "sponsor1@alpha.com",
+      "Password": "hashedpass3",
+      "CompanyName": "Alpha Corp",
+      "CompanyAddress": "Jl. Merdeka No.1",
+      "CompanyEmail": "contact@alpha.com",
+      "PhoneNumber": "08123456789",
+      "Role": "Sponsor",
+      "_t": [
+        "User",
+        "Sponsor"
+      ],
+      "id": "695c"
+    },
+    {
+      "_id": {
+        "$oid": "6650e1c00100000000000004"
+      },
+      "Name": "Sponsor Beta",
+      "Email": "sponsor2@beta.com",
+      "Password": "hashedpass4",
+      "CompanyName": "Beta Inc",
+      "CompanyAddress": "Jl. Sudirman No.10",
+      "CompanyEmail": "contact@beta.com",
+      "PhoneNumber": "08129876543",
+      "Role": "Sponsor",
+      "_t": [
+        "User",
+        "Sponsor"
+      ],
+      "id": "f0e5"
+    },
+    {
+      "_id": {
+        "$oid": "6650e1c00100000000000005"
+      },
+      "Name": "Sponsoree Gamma",
+      "Email": "gamma@org.com",
+      "Password": "hashedpass5",
+      "OrganizationName": "Gamma Foundation",
+      "OrganizationAddress": "Jl. Kesehatan No.5",
+      "OrganizationPhoneNumber": "0218888888",
+      "OrganizationEmail": "info@gamma.org",
+      "PersonalPhoneNumber": "08991234567",
+      "PersonalAddress": "Jl. Damai No.3",
+      "Age": 25,
+      "_t": [
+        "User",
+        "Sponsoree"
+      ],
+      "id": "2a86"
+    },
+    {
+      "_id": {
+        "$oid": "6650e1c00100000000000006"
+      },
+      "Name": "Sponsoree Delta",
+      "Email": "delta@org.com",
+      "Password": "hashedpass6",
+      "OrganizationName": "Delta Youth",
+      "OrganizationAddress": "Jl. Pemuda No.9",
+      "OrganizationPhoneNumber": "0217777777",
+      "OrganizationEmail": "contact@delta.org",
+      "PersonalPhoneNumber": "08881231234",
+      "PersonalAddress": "Jl. Muda No.12",
+      "Age": 30,
+      "_t": [
+        "User",
+        "Sponsoree"
+      ],
+      "id": "6edc"
+    },
+    {
+      "id": "7320",
+      "name": "josh",
+      "email": "customer@example.com",
+      "password": "1234567890asd"
+    },
+    {
+      "id": "59e8",
+      "name": "test",
+      "email": "joshbryan050310@gmail.com",
+      "password": "1234567890987654321"
+    }
+  ]
+}
