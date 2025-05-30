@@ -2,83 +2,91 @@ import Footer from "../components/Footer";
 import NavBar from "../components/NavBar"
 import Card from "../components/Card";
 import { Link } from "react-router";
+import { useFetchProjects } from "../api/useFetchProjects";
+import { useEffect } from "react";
 
-const dummyData = [
-  {
-    id: "1",
-    name: "Business A",
-    address: "Jl. Mawar No. 1",
-    phone: "0812-3456-7890",
-    email: "businessA@example.com",
-    description: "Kami menyediakan layanan konsultasi bisnis profesional dan terpercaya untuk pengembangan UMKM.",
-    imageUrl: "https://source.unsplash.com/400x300/?office",
-  },
-  {
-    id: "2",
-    name: "Business B",
-    address: "Jl. Melati No. 2",
-    phone: "0821-7654-3210",
-    email: "businessB@example.com",
-    description: "Spesialis dalam solusi digital marketing dan manajemen media sosial untuk pelaku usaha.",
-    imageUrl: "https://source.unsplash.com/400x300/?startup",
-  },
-  {
-    id: "3",
-    name: "Business C",
-    address: "Jl. Kenanga No. 3",
-    phone: "0852-1111-2222",
-    email: "businessC@example.com",
-    description: "Kami membantu bisnis Anda dengan layanan desain grafis profesional dan brand identity.",
-    imageUrl: "https://source.unsplash.com/400x300/?coworking",
-  },
-  {
-    id: "4",
-    name: "Business D",
-    address: "Jl. Anggrek No. 4",
-    phone: "0877-3333-4444",
-    email: "businessD@example.com",
-    description: "Layanan akuntansi dan keuangan terpercaya untuk bisnis skala kecil dan menengah.",
-    imageUrl: "https://source.unsplash.com/400x300/?meeting",
-  },
-  {
-    id: "5",
-    name: "Business E",
-    address: "Jl. Flamboyan No. 5",
-    phone: "0813-5555-6666",
-    email: "businessE@example.com",
-    description: "Menawarkan pelatihan dan workshop pengembangan diri serta kepemimpinan.",
-    imageUrl: "https://source.unsplash.com/400x300/?training",
-  },
-  {
-    id: "6",
-    name: "Business F",
-    address: "Jl. Cemara No. 6",
-    phone: "0896-7777-8888",
-    email: "businessF@example.com",
-    description: "Kami adalah agensi kreatif yang fokus pada inovasi desain dan user experience.",
-    imageUrl: "https://source.unsplash.com/400x300/?creative",
-  },
-  {
-    id: "7",
-    name: "Business G",
-    address: "Jl. Sakura No. 7",
-    phone: "0838-9999-0000",
-    email: "businessG@example.com",
-    description: "Platform marketplace lokal untuk produk-produk handmade dan kerajinan asli Indonesia.",
-    imageUrl: "https://source.unsplash.com/400x300/?market",
-  },
-  {
-    id: "8",
-    name: "Business H",
-    address: "Jl. Teratai No. 8",
-    phone: "0819-1234-5678",
-    email: "businessH@example.com",
-    description: "Konsultan teknologi dan pengembangan software custom untuk bisnis digital.",
-    imageUrl: "https://source.unsplash.com/400x300/?technology",
-  },
-];
+// const dummyData = [
+//   {
+//     id: "1",
+//     name: "Business A",
+//     address: "Jl. Mawar No. 1",
+//     phone: "0812-3456-7890",
+//     email: "businessA@example.com",
+//     description: "Kami menyediakan layanan konsultasi bisnis profesional dan terpercaya untuk pengembangan UMKM.",
+//     imageUrl: "https://source.unsplash.com/400x300/?office",
+//   },
+//   {
+//     id: "2",
+//     name: "Business B",
+//     address: "Jl. Melati No. 2",
+//     phone: "0821-7654-3210",
+//     email: "businessB@example.com",
+//     description: "Spesialis dalam solusi digital marketing dan manajemen media sosial untuk pelaku usaha.",
+//     imageUrl: "https://source.unsplash.com/400x300/?startup",
+//   },
+//   {
+//     id: "3",
+//     name: "Business C",
+//     address: "Jl. Kenanga No. 3",
+//     phone: "0852-1111-2222",
+//     email: "businessC@example.com",
+//     description: "Kami membantu bisnis Anda dengan layanan desain grafis profesional dan brand identity.",
+//     imageUrl: "https://source.unsplash.com/400x300/?coworking",
+//   },
+//   {
+//     id: "4",
+//     name: "Business D",
+//     address: "Jl. Anggrek No. 4",
+//     phone: "0877-3333-4444",
+//     email: "businessD@example.com",
+//     description: "Layanan akuntansi dan keuangan terpercaya untuk bisnis skala kecil dan menengah.",
+//     imageUrl: "https://source.unsplash.com/400x300/?meeting",
+//   },
+//   {
+//     id: "5",
+//     name: "Business E",
+//     address: "Jl. Flamboyan No. 5",
+//     phone: "0813-5555-6666",
+//     email: "businessE@example.com",
+//     description: "Menawarkan pelatihan dan workshop pengembangan diri serta kepemimpinan.",
+//     imageUrl: "https://source.unsplash.com/400x300/?training",
+//   },
+//   {
+//     id: "6",
+//     name: "Business F",
+//     address: "Jl. Cemara No. 6",
+//     phone: "0896-7777-8888",
+//     email: "businessF@example.com",
+//     description: "Kami adalah agensi kreatif yang fokus pada inovasi desain dan user experience.",
+//     imageUrl: "https://source.unsplash.com/400x300/?creative",
+//   },
+//   {
+//     id: "7",
+//     name: "Business G",
+//     address: "Jl. Sakura No. 7",
+//     phone: "0838-9999-0000",
+//     email: "businessG@example.com",
+//     description: "Platform marketplace lokal untuk produk-produk handmade dan kerajinan asli Indonesia.",
+//     imageUrl: "https://source.unsplash.com/400x300/?market",
+//   },
+//   {
+//     id: "8",
+//     name: "Business H",
+//     address: "Jl. Teratai No. 8",
+//     phone: "0819-1234-5678",
+//     email: "businessH@example.com",
+//     description: "Konsultan teknologi dan pengembangan software custom untuk bisnis digital.",
+//     imageUrl: "https://source.unsplash.com/400x300/?technology",
+//   },
+// ];
 
 const HomePage = () => {
+
+    const {projects, projectLoading, projectError, fetchProjects} = useFetchProjects();
+  // useEffect({}, [])
+  useEffect(() => {
+    fetchProjects();
+  }, []);
   return (
     <section>
       <NavBar />
@@ -103,7 +111,7 @@ const HomePage = () => {
       <h2 className="text-3xl font-bold text-center text-[#B82132] mt-16 mb-8">Popular Projects</h2>
 
       <div className="m-10 grid gap-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {dummyData.map((data, index) => (
+        {projects.map((data, index) => (
           <div
   key={data.id}
   className={`opacity-0 translate-y-4 animate-[fadeIn_0.6s_ease-out_forwards] transition-transform duration-500 ease-in-out hover:scale-105 hover:shadow-lg`}

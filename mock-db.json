@@ -109,18 +109,6 @@
         "Sponsoree"
       ],
       "id": "6edc"
-    },
-    {
-      "id": "7320",
-      "name": "josh",
-      "email": "customer@example.com",
-      "password": "1234567890asd"
-    },
-    {
-      "id": "59e8",
-      "name": "test",
-      "email": "joshbryan050310@gmail.com",
-      "password": "1234567890987654321"
     }
   ]
 }
