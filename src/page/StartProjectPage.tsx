@@ -3,14 +3,15 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
+import { useCreateSponsoree } from "../api/useCreateSponsoree";
 
 const schema = z.object({
-  personalAddress: z.string().min(1, "Personal address wajib diisi"),
-  personalPhone: z.string().min(1, "Personal phone number wajib diisi"),
-  orgEmail: z.string().email("Email organisasi tidak valid"),
-  orgPhone: z.string().min(1, "Organization phone number wajib diisi"),
-  orgAddress: z.string().min(1, "Organization address wajib diisi"),
-  orgName: z.string().min(1, "Organization name wajib diisi"),
+  PersonalAddress: z.string().min(1, "Personal address wajib diisi"),
+  PersonalPhoneNumber: z.string().min(1, "Personal phone number wajib diisi"),
+  OrganizationEmail: z.string().email("Email organisasi tidak valid"),
+  OrganizationPhoneNumber: z.string().min(1, "Organization phone number wajib diisi"),
+  OrganizationAddress: z.string().min(1, "Organization address wajib diisi"),
+  OrganizationName: z.string().min(1, "Organization name wajib diisi"),
 });
 
 type FormData = z.infer<typeof schema>;
@@ -20,26 +21,28 @@ const StartProjectPage = () => {
     register,
     handleSubmit,
     formState: { errors, isSubmitSuccessful },
-    reset,
   } = useForm<FormData>({
     resolver: zodResolver(schema),
   });
 
-  const onSubmit = (data: FormData) => {
-    console.log(data);
-    reset();
+  const {createSponsoreeLoading,
+        createSponsoreeError,
+        handleCreateSponsoree} = useCreateSponsoree();
+
+  const onSubmit = async (data: FormData) => {
+    handleCreateSponsoree(data)
   };
 
-  if (isSubmitSuccessful) {
-    return (
-      <section className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
-        <div className="max-w-md p-8 bg-white rounded-xl shadow text-center">
-          <h2 className="text-2xl font-semibold mb-4 text-[#B82132]">Terima kasih!</h2>
-          <p>Form start project Anda telah berhasil dikirim.</p>
-        </div>
-      </section>
-    );
-  }
+  // if (isSubmitSuccessful) {
+  //   return (
+  //     <section className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
+  //       <div className="max-w-md p-8 bg-white rounded-xl shadow text-center">
+  //         <h2 className="text-2xl font-semibold mb-4 text-[#B82132]">Terima kasih!</h2>
+  //         <p>Form start project Anda telah berhasil dikirim.</p>
+  //       </div>
+  //     </section>
+  //   );
+  // }
 
   return (
     
@@ -58,90 +61,90 @@ const StartProjectPage = () => {
             <label className="block mb-4">
               <span className="text-gray-700 font-semibold">Personal Address</span>
               <input
-                {...register("personalAddress")}
+                {...register("PersonalAddress")}
                 type="text"
                 placeholder="Masukkan alamat pribadi"
                 className={`mt-1 block w-full rounded-xl border p-3 focus:outline-none focus:ring-2 focus:ring-[#D2665A] ${
-                  errors.personalAddress ? "border-red-500" : "border-gray-300"
+                  errors.PersonalAddress ? "border-red-500" : "border-gray-300"
                 }`}
               />
-              {errors.personalAddress && (
-                <p className="text-red-600 mt-1 text-sm">{errors.personalAddress.message}</p>
+              {errors.PersonalAddress && (
+                <p className="text-red-600 mt-1 text-sm">{errors.PersonalAddress.message}</p>
               )}
             </label>
 
             <label className="block mb-4">
               <span className="text-gray-700 font-semibold">Personal Phone Number</span>
               <input
-                {...register("personalPhone")}
+                {...register("PersonalPhoneNumber")}
                 type="tel"
                 placeholder="Masukkan nomor telepon pribadi"
                 className={`mt-1 block w-full rounded-xl border p-3 focus:outline-none focus:ring-2 focus:ring-[#D2665A] ${
-                  errors.personalPhone ? "border-red-500" : "border-gray-300"
+                  errors.PersonalPhoneNumber ? "border-red-500" : "border-gray-300"
                 }`}
               />
-              {errors.personalPhone && (
-                <p className="text-red-600 mt-1 text-sm">{errors.personalPhone.message}</p>
+              {errors.PersonalPhoneNumber && (
+                <p className="text-red-600 mt-1 text-sm">{errors.PersonalPhoneNumber.message}</p>
               )}
             </label>
 
             <label className="block mb-4">
               <span className="text-gray-700 font-semibold">Organization Email</span>
               <input
-                {...register("orgEmail")}
+                {...register("OrganizationEmail")}
                 type="email"
                 placeholder="Masukkan email organisasi"
                 className={`mt-1 block w-full rounded-xl border p-3 focus:outline-none focus:ring-2 focus:ring-[#D2665A] ${
-                  errors.orgEmail ? "border-red-500" : "border-gray-300"
+                  errors.OrganizationEmail ? "border-red-500" : "border-gray-300"
                 }`}
               />
-              {errors.orgEmail && (
-                <p className="text-red-600 mt-1 text-sm">{errors.orgEmail.message}</p>
+              {errors.OrganizationEmail && (
+                <p className="text-red-600 mt-1 text-sm">{errors.OrganizationEmail.message}</p>
               )}
             </label>
 
             <label className="block mb-4">
               <span className="text-gray-700 font-semibold">Organization Phone Number</span>
               <input
-                {...register("orgPhone")}
+                {...register("OrganizationPhoneNumber")}
                 type="tel"
                 placeholder="Masukkan nomor telepon organisasi"
                 className={`mt-1 block w-full rounded-xl border p-3 focus:outline-none focus:ring-2 focus:ring-[#D2665A] ${
-                  errors.orgPhone ? "border-red-500" : "border-gray-300"
+                  errors.OrganizationPhoneNumber ? "border-red-500" : "border-gray-300"
                 }`}
               />
-              {errors.orgPhone && (
-                <p className="text-red-600 mt-1 text-sm">{errors.orgPhone.message}</p>
+              {errors.OrganizationPhoneNumber && (
+                <p className="text-red-600 mt-1 text-sm">{errors.OrganizationPhoneNumber.message}</p>
               )}
             </label>
 
             <label className="block mb-4">
               <span className="text-gray-700 font-semibold">Organization Address</span>
               <input
-                {...register("orgAddress")}
+                {...register("OrganizationAddress")}
                 type="text"
                 placeholder="Masukkan alamat organisasi"
                 className={`mt-1 block w-full rounded-xl border p-3 focus:outline-none focus:ring-2 focus:ring-[#D2665A] ${
-                  errors.orgAddress ? "border-red-500" : "border-gray-300"
+                  errors.OrganizationAddress ? "border-red-500" : "border-gray-300"
                 }`}
               />
-              {errors.orgAddress && (
-                <p className="text-red-600 mt-1 text-sm">{errors.orgAddress.message}</p>
+              {errors.OrganizationAddress && (
+                <p className="text-red-600 mt-1 text-sm">{errors.OrganizationAddress.message}</p>
               )}
             </label>
 
             <label className="block mb-6">
               <span className="text-gray-700 font-semibold">Organization Name</span>
               <input
-                {...register("orgName")}
+                {...register("OrganizationName")}
                 type="text"
                 placeholder="Masukkan nama organisasi"
                 className={`mt-1 block w-full rounded-xl border p-3 focus:outline-none focus:ring-2 focus:ring-[#D2665A] ${
-                  errors.orgName ? "border-red-500" : "border-gray-300"
+                  errors.OrganizationName ? "border-red-500" : "border-gray-300"
                 }`}
               />
-              {errors.orgName && (
-                <p className="text-red-600 mt-1 text-sm">{errors.orgName.message}</p>
+              {errors.OrganizationName && (
+                <p className="text-red-600 mt-1 text-sm">{errors.OrganizationName.message}</p>
               )}
             </label>
 

@@ -7,11 +7,11 @@ const Card = (props: ProjectResponse) => {
     <div className="group relative overflow-hidden rounded-xl shadow-lg border border-gray-200 bg-white hover:shadow-2xl transition-all duration-300">
       <img
         src={"/images/banner.jpg"}
-        alt={props.organizationName}
+        alt={props.OrganizationName}
         className="w-full h-48 object-cover"
       />
       <div className="p-4">
-        <h2 className="text-xl font-semibold text-[#B82132]">{props.organizationName}</h2>
+        <h2 className="text-xl font-semibold text-[#B82132]">{props.OrganizationName}</h2>
         <p className="text-sm text-gray-500">{props.OrganizationAddress}</p>
         <p className="text-sm text-gray-500">{props.OrganizationPhoneNumber}</p>
         <p className="text-sm text-gray-500 mb-2">{props.PersonalAddress}</p>

@@ -1,13 +1,16 @@
-// Tipe untuk role
-type Role = "admin" | "user";
+// Role yang tersedia
+export type Role = "admin" | "sponsor" | "sponsoree";
 
-export interface User {
+// Tipe user login yang lengkap
+export interface LoggedInUser {
+  id: string;
   role: Role;
+  name: string;
+  email: string;
 }
 
 // Simpan user ke localStorage
-export function login(role: Role) {
-  const user: User = { role };
+export function login(user: LoggedInUser) {
   localStorage.setItem("user", JSON.stringify(user));
 }
 
@@ -17,7 +20,7 @@ export function logout() {
 }
 
 // Ambil user dari localStorage
-export function getUser(): User | null {
+export function getUser(): LoggedInUser | null {
   const data = localStorage.getItem("user");
   return data ? JSON.parse(data) : null;
 }

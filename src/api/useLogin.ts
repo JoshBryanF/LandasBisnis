@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
 // import axios from "axios";
-import { login } from "../utils/Auth"; // Sesuaikan path ke auth.ts
+import { login, type Role } from "../utils/Auth"; // Sesuaikan path ke auth.ts
 import { axiosInstance } from "../lib/axiosInstance";
+
 
 // type Role = "admin" | "user";
 
@@ -24,12 +25,25 @@ export function useLogin() {
           Password: data.password, // Plaintext untuk mock DB
         },
       });
-
+      let role: Role;
       if (response.data.length > 0) {
         const user = response.data[0];
-        const role = user._t.includes("Admin") ? "admin" : "user";
+        if (user._t.includes("Admin")) {
+          role = "admin";
+        } else if (user._t.includes("Sponsor")) {
+          role = "sponsor";
+        } else if (user._t.includes("Sponsoree")) {
+          role = "sponsoree";
+        } else {
+          throw new Error("Role tidak dikenali");
+        }
 
-        login(role); // Simpan role ke localStorage
+        login({
+          id: user._id,
+          name: user.Name,
+          email: user.Email,
+          role
+        });
         navigate("/");
       } else {
         setLoginError("Email atau password salah.");

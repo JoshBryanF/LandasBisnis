@@ -6,7 +6,7 @@ export type ProjectResponse =  {
     // Name: string;
     // Email : string;
     // Password : string;
-    organizationName : string;
+    OrganizationName : string;
     OrganizationAddress : string;
     OrganizationPhoneNumber : string;
     OrganizationEmail: string;

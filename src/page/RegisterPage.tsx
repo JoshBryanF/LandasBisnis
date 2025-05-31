@@ -6,11 +6,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 // import type user
 
 const registerSchema = z.object({
-    name : z.string().min(3).max(20),
-    password: z.string().min(8),
-    email : z.string().email(),
-    confirmPassword : z.string().min(8)
-}).refine((data) => data.password === data.confirmPassword, {
+    Name : z.string().min(3).max(20),
+    Password: z.string().min(8),
+    Email : z.string().email(),
+    confirmPassword : z.string().min(8),
+    role : z.enum(["Sponsor", "Sponsoree"])
+}).refine((data) => data.Password === data.confirmPassword, {
     path: ["confirmPassword"]
   });
 
@@ -46,18 +47,18 @@ const RegisterPage = () => {
                 <p className="text-xs mt-4 text-[#D2665A]">Create your account to get started</p>
 
                 <form action="" className="flex flex-col gap-4" onSubmit={form.handleSubmit(onSubmit)}>
-                    <input className="p-2 mt-8 rounded-xl border border-[#F2B28C] focus:outline-none focus:ring-2 focus:ring-[#D2665A]" type="text" placeholder="Full Name" {...form.register("name")}/>
-                    {form.formState.errors.name  && <p className="mt-1 text-sm text-red-500 bg-red-50 px-3 py-1 rounded">{form.formState.errors.name.message}</p>}
+                    <input className="p-2 mt-8 rounded-xl border border-[#F2B28C] focus:outline-none focus:ring-2 focus:ring-[#D2665A]" type="text" placeholder="Full Name" {...form.register("Name")}/>
+                    {form.formState.errors.Name  && <p className="mt-1 text-sm text-red-500 bg-red-50 px-3 py-1 rounded">{form.formState.errors.Name.message}</p>}
 
-                    <input className="p-2 rounded-xl border border-[#F2B28C] focus:outline-none focus:ring-2 focus:ring-[#D2665A]" type="email" placeholder="Email" {...form.register("email")}/>
-                    {form.formState.errors.email && <p className="mt-1 text-sm text-red-500 bg-red-50 px-3 py-1 rounded">{form.formState.errors.email.message}</p>}
+                    <input className="p-2 rounded-xl border border-[#F2B28C] focus:outline-none focus:ring-2 focus:ring-[#D2665A]" type="email" placeholder="Email" {...form.register("Email")}/>
+                    {form.formState.errors.Email && <p className="mt-1 text-sm text-red-500 bg-red-50 px-3 py-1 rounded">{form.formState.errors.Email.message}</p>}
                     
 
                     
                     <div className="relative">
-                    <input className="p-2 rounded-xl border w-full border-[#F2B28C] focus:outline-none focus:ring-2 focus:ring-[#D2665A]" type="password" placeholder="Password" {...form.register("password")}/>
+                    <input className="p-2 rounded-xl border w-full border-[#F2B28C] focus:outline-none focus:ring-2 focus:ring-[#D2665A]" type="password" placeholder="Password" {...form.register("Password")}/>
                     </div>
-                    {form.formState.errors.password && <p className="mt-1 text-sm text-red-500 bg-red-50 px-3 py-1 rounded">{form.formState.errors.password.message}</p>}
+                    {form.formState.errors.Password && <p className="mt-1 text-sm text-red-500 bg-red-50 px-3 py-1 rounded">{form.formState.errors.Password.message}</p>}
 
 
                     <div className="relative">
@@ -65,6 +66,26 @@ const RegisterPage = () => {
                     </div>
                     {form.formState.errors.confirmPassword && <p className="mt-1 text-sm text-red-500 bg-red-50 px-3 py-1 rounded">{form.formState.errors.confirmPassword.message}</p>}
 
+<label className="block mb-1 text-sm font-medium text-[#B82132]">Choose Role</label>
+  {/* <div className="flex gap-4"> */}
+    <label className="flex items-center gap-2 text-sm">
+      <input
+        type="radio"
+        value="Sponsor"
+        {...form.register("role")}
+        className="accent-[#B82132]"
+      />
+      Sponsor
+    </label>
+    <label className="flex items-center gap-2 text-sm">
+      <input
+        type="radio"
+        value="Sponsoree"
+        {...form.register("role")}
+        className="accent-[#B82132]"
+      />
+      Sponsoree
+    </label>
 
                     <button className="bg-[#B82132] text-white rounded-xl py-2 hover:bg-[#D2665A] duration-300">Register</button>
                     {createUserLoading && <p className="text-blue-600 text-sm animate-pulse">Loading...</p>}
