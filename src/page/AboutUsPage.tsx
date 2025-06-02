@@ -1,7 +1,10 @@
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
+import useAuthUser from "react-auth-kit/hooks/useAuthUser";
 
 const AboutUsPage = () => {
+    const user = useAuthUser();
+    console.log(user)
   return (
     <div>
         <NavBar />

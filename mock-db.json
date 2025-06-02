@@ -109,36 +109,6 @@
         "Sponsoree"
       ],
       "id": "6edc"
-    },
-    {
-      "id": "3c11",
-      "name": "Josh",
-      "email": "customer@example.com",
-      "password": "Test1234",
-      "_t": [
-        "user",
-        "Sponsoree"
-      ]
-    },
-    {
-      "id": "f252",
-      "Name": "Test",
-      "Email": "test@gmail.com",
-      "Password": "0987654321",
-      "_t": [
-        "user",
-        "Sponsor"
-      ]
-    },
-    {
-      "id": "4295",
-      "Name": "aru",
-      "Email": "yey@gmail.com",
-      "Password": "1234567890",
-      "_t": [
-        "user",
-        "Sponsoree"
-      ]
     }
   ]
 }

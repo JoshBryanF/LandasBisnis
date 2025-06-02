@@ -1,22 +1,40 @@
 import { Link, useNavigate } from "react-router";
-import { getUser, logout } from "../utils/Auth";
 import { useEffect, useState, useRef } from "react";
+import useSignOut from 'react-auth-kit/hooks/useSignOut';
+import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
+import useIsAuthenticated from 'react-auth-kit/hooks/useIsAuthenticated';
+
+interface UserData{
+  email: string;
+  uid : string;
+  role : string[];
+}
 
 const NavBar = () => {
-  const [role, setRole] = useState<"admin" | "user" | null>(null);
+  const [role, setRole] = useState("");
   const [query, setQuery] = useState("");
   const navigate = useNavigate();
-
+  const signOut = useSignOut();
+  const authUser = useAuthUser<UserData>();
+  // console.log(authUser)
+  // const user = authUser();
+  const isAuthenticated = useIsAuthenticated(); // hasilnya boolean
+  console.log(isAuthenticated);
+  
   // State untuk navbar visibility dan transparansi
   const [showNav, setShowNav] = useState(true);
   const [isTop, setIsTop] = useState(true);
-
+  
   // Ref untuk menyimpan posisi scroll sebelumnya
   const lastScrollY = useRef(0);
-
+  
   useEffect(() => {
-    const user = getUser();
-    setRole(user?.role || null);
+    // const name = authUser.name;
+    // console.log(auth.user)
+    if(authUser){
+      setRole(authUser.role[1]);
+    }
+    // console.log(authUser)
   }, []);
 
   // Fungsi untuk handle scroll
@@ -46,8 +64,8 @@ const NavBar = () => {
   }, []);
 
   const handleLogout = () => {
-    logout();
-    setRole(null);
+    signOut();
+    // setRole(null);
     navigate("/login");
   };
 

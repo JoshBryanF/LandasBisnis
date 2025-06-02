@@ -32,8 +32,8 @@ export const useFetchProjects = () => {
             item._t.includes("User") &&
             item._t.includes("Sponsoree")
             );
-            console.log(sponsoreeOnly)
-            console.log(Array.isArray(response.data)); 
+            // console.log(sponsoreeOnly)
+            // console.log(Array.isArray(response.data)); 
             setProjects(sponsoreeOnly)
         } catch (error) {
             setProjectError((error as TypeError).message)

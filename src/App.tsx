@@ -13,11 +13,15 @@ import ManageUsersPage from "./page/ManageUsersPage";
 import ManageEventsPage from "./page/ManageEventsPage";
 import ManageAdminsPage from "./page/ManageAdminsPage";
 import ManageStatusPage from "./page/ManageStatusPage";
+// import createStore from 'react-auth-kit/createStore';
+// import AuthProvider from 'react-auth-kit';
+
+
 function App() {
 
 
   return (
-    <>
+    // <AuthProvider store={store}>
       <Routes>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
@@ -33,7 +37,7 @@ function App() {
         <Route path="/manage/admins" element={<ManageAdminsPage />} />
         <Route path="/manage/status" element={<ManageStatusPage />} />
       </Routes>
-    </>
+    // </ AuthProvider>
   )
 }
 

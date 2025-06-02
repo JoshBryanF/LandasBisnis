@@ -52,7 +52,7 @@ const LoginPage = () => {
                         </div>
 
                         <button className="bg-[#B82132] rounded-xl text-white py-2 hover:bg-[#F6DED8] duration-300">Login</button>
-                        {loginError && <p>error bg</p> }
+                        {loginError }
                     </form>
 
                     

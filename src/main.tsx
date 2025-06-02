@@ -3,11 +3,20 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.tsx'
 import { BrowserRouter } from 'react-router'
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+import createStore from 'react-auth-kit/createStore'
+import AuthProvider from 'react-auth-kit'
 
-  </StrictMode>,
+
+const store = createStore({
+  authName:'_auth',
+  authType:'localstorage',
+});
+createRoot(document.getElementById('root')!).render(
+  // <StrictMode>
+    <AuthProvider store={store}>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </ AuthProvider>
+  /* </StrictMode>, */
 )

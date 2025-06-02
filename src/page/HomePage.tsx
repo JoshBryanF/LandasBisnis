@@ -4,7 +4,7 @@ import Card from "../components/Card";
 import { Link } from "react-router";
 import { useFetchProjects } from "../api/useFetchProjects";
 import { useEffect } from "react";
-import { getUser } from "../utils/Auth";
+// import { getUser } from "../utils/Auth";
 
 // const dummyData = [
 //   {
@@ -82,7 +82,7 @@ import { getUser } from "../utils/Auth";
 // ];
 
 const HomePage = () => {
-  console.log(getUser()?.id)
+
 
     const {projects, projectLoading, projectError, fetchProjects} = useFetchProjects();
   // useEffect({}, [])

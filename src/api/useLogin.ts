@@ -1,57 +1,69 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
-// import axios from "axios";
-import { login, type Role } from "../utils/Auth"; // Sesuaikan path ke auth.ts
 import { axiosInstance } from "../lib/axiosInstance";
-
+import useSignIn from 'react-auth-kit/hooks/useSignIn';
+import useAuthUser from "react-auth-kit/hooks/useAuthUser";
+// import useAuthUser from "react-auth-kit/hooks/useAuthUser";
 
 // type Role = "admin" | "user";
 
 type user = {
     email: string;
-    password : string
+    password : string;
+    // token : string;
 }
 
 export function useLogin() {
-//   const [loginLoading, setLoginLoading] = useState(false);
   const [loginError, setLoginError] = useState("");
   const navigate = useNavigate();
+  const signIn = useSignIn();
 
   const handleLogin = async (data : user) => {
     try {
-      const response = await axiosInstance.get(`/user`, {
+      const response = await axiosInstance.get('/user', {
         params: {
           Email: data.email,
-          Password: data.password, // Plaintext untuk mock DB
+          Password: data.password,
         },
       });
-      let role: Role;
-      if (response.data.length > 0) {
-        const user = response.data[0];
-        if (user._t.includes("Admin")) {
-          role = "admin";
-        } else if (user._t.includes("Sponsor")) {
-          role = "sponsor";
-        } else if (user._t.includes("Sponsoree")) {
-          role = "sponsoree";
-        } else {
-          throw new Error("Role tidak dikenali");
-        }
 
-        login({
-          id: user._id,
-          name: user.Name,
-          email: user.Email,
-          role
-        });
-        navigate("/");
-      } else {
-        setLoginError("Email atau password salah.");
-      }
+      const result = response.data
+      console.log(result);
+      signIn({
+        auth: {
+          token: 'test',
+          type: 'Bearer',
+          
+        },
+        userState: result.authUserState
+      });
+      navigate('/aboutus')
+      // const succeed =   
+      // const succeed = signIn({
+      //   auth: {
+      //     token: 'test',
+      //     type: 'Bearer',
+          
+      //   },
+      //   userState: {
+      //     email: result.email,
+      //     uid: result.id,
+      //     role: result._t,
+      //   },
+      // });
+
+      // if (succeed) {
+      //   navigate('/aboutus');
+      // } else {
+      //   setLoginError("Wrong Email or Password");
+      // }
     } catch (err) {
-      setLoginError("Terjadi kesalahan saat login.");
+      setLoginError(err.message);
     }
+    
   };
+  const user = useAuthUser();
+  console.log(user)
 
   return { handleLogin, loginError };
 }
