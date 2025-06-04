@@ -4,6 +4,7 @@ import { useState } from "react";
 
 // import { AxiosInstance } from "axios";
 import { axiosInstance } from "../lib/axiosInstance";
+import { useAuthUser } from "../auth/auth";
 // import { getUser } from "../utils/Auth";
 
 type Sponsoree = {
@@ -13,12 +14,16 @@ type Sponsoree = {
     OrganizationEmail: string;
     PersonalPhoneNumber : string;
     PersonalAddress : string;
+    Goals : string;
+    Description : string;
 }
 
 export const useCreateSponsoree = () =>{
     // const [inputText, setInputText] = useState("")
     const [createSponsoreeLoading, setCreateSponsoreeLoading] = useState(false);
     const [createSponsoreeError, setCreateSponsoreeError] = useState("");
+    const user = useAuthUser();
+    const userId = user?.id;
     // const user = getUser();
     const handleCreateSponsoree = async (payload : Sponsoree) => {
 
@@ -26,13 +31,15 @@ export const useCreateSponsoree = () =>{
             // console.log(user)
             setCreateSponsoreeLoading(true)  
             // end point API untuk Sponsoree  
-            await axiosInstance.post(`/user/`, {
+            await axiosInstance.patch(`/user/${userId}`, {
                 OrganizationName : payload.OrganizationName,
                 OrganizationAddress : payload.OrganizationAddress,
                 OrganizationPhoneNumber : payload.OrganizationPhoneNumber,
                 OrganizationEmail: payload.OrganizationEmail,
                 PersonalPhoneNumber : payload.PersonalPhoneNumber,
-                PersonalAddress : payload.PersonalAddress
+                PersonalAddress : payload.PersonalAddress,
+                Goals: payload.Goals,
+                Description : payload.Description
             })
         } catch (error) {
             setCreateSponsoreeError((error as TypeError).message)

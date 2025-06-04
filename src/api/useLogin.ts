@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { axiosInstance } from "../lib/axiosInstance";
-import useSignIn from 'react-auth-kit/hooks/useSignIn';
-import useAuthUser from "react-auth-kit/hooks/useAuthUser";
+import { useSignIn } from "../auth/auth";
 // import useAuthUser from "react-auth-kit/hooks/useAuthUser";
 
 // type Role = "admin" | "user";
@@ -14,9 +13,9 @@ type user = {
 }
 
 export function useLogin() {
+  const signIn = useSignIn();
   const [loginError, setLoginError] = useState("");
   const navigate = useNavigate();
-  const signIn = useSignIn();
 
   const handleLogin = async (data : user) => {
     try {
@@ -28,42 +27,20 @@ export function useLogin() {
       });
 
       const result = response.data
-      console.log(result);
+      console.log(result)
       signIn({
-        auth: {
-          token: 'test',
-          type: 'Bearer',
-          
-        },
-        userState: result.authUserState
-      });
-      navigate('/aboutus')
-      // const succeed =   
-      // const succeed = signIn({
-      //   auth: {
-      //     token: 'test',
-      //     type: 'Bearer',
-          
-      //   },
-      //   userState: {
-      //     email: result.email,
-      //     uid: result.id,
-      //     role: result._t,
-      //   },
-      // });
+        token : 'test',
+        expiresAt: new Date(Date.now() + 60 * 60 * 1000).toISOString(),
+        user: result[0]
+      })
 
-      // if (succeed) {
-      //   navigate('/aboutus');
-      // } else {
-      //   setLoginError("Wrong Email or Password");
-      // }
+      navigate('/')
+      
     } catch (err) {
       setLoginError(err.message);
     }
     
   };
-  const user = useAuthUser();
-  console.log(user)
 
   return { handleLogin, loginError };
 }

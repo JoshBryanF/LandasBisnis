@@ -1,173 +1,117 @@
-import { useState, useEffect } from "react";
-import Card from "../components/Card";
+import { useState, useEffect, useMemo } from "react";
+import CardHorizontal from "../components/CardHorizontal";
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
 import { useFetchProjects } from "../api/useFetchProjects";
-import type {ProjectResponse} from "../api/useFetchProjects"
+import type ProjectResponse from "../api/useFetchProjects";
 
-// const dummyData = [
-//   {
-//     id: "1",
-//     name: "Business A",
-//     address: "Jl. Mawar No. 1",
-//     phone: "0812-3456-7890",
-//     email: "businessA@example.com",
-//     description: "Kami menyediakan layanan konsultasi bisnis profesional dan terpercaya untuk pengembangan UMKM.",
-//     imageUrl: "https://source.unsplash.com/400x300/?office",
-//   },
-//   {
-//     id: "2",
-//     name: "Business B",
-//     address: "Jl. Melati No. 2",
-//     phone: "0821-7654-3210",
-//     email: "businessB@example.com",
-//     description: "Spesialis dalam solusi digital marketing dan manajemen media sosial untuk pelaku usaha.",
-//     imageUrl: "https://source.unsplash.com/400x300/?startup",
-//   },
-//   {
-//     id: "3",
-//     name: "Business C",
-//     address: "Jl. Kenanga No. 3",
-//     phone: "0852-1111-2222",
-//     email: "businessC@example.com",
-//     description: "Kami membantu bisnis Anda dengan layanan desain grafis profesional dan brand identity.",
-//     imageUrl: "https://source.unsplash.com/400x300/?coworking",
-//   },
-//   {
-//     id: "4",
-//     name: "Business D",
-//     address: "Jl. Anggrek No. 4",
-//     phone: "0877-3333-4444",
-//     email: "businessD@example.com",
-//     description: "Layanan akuntansi dan keuangan terpercaya untuk bisnis skala kecil dan menengah.",
-//     imageUrl: "https://source.unsplash.com/400x300/?meeting",
-//   },
-//   {
-//     id: "5",
-//     name: "Business E",
-//     address: "Jl. Flamboyan No. 5",
-//     phone: "0813-5555-6666",
-//     email: "businessE@example.com",
-//     description: "Menawarkan pelatihan dan workshop pengembangan diri serta kepemimpinan.",
-//     imageUrl: "https://source.unsplash.com/400x300/?training",
-//   },
-//   {
-//     id: "6",
-//     name: "Business F",
-//     address: "Jl. Cemara No. 6",
-//     phone: "0896-7777-8888",
-//     email: "businessF@example.com",
-//     description: "Kami adalah agensi kreatif yang fokus pada inovasi desain dan user experience.",
-//     imageUrl: "https://source.unsplash.com/400x300/?creative",
-//   },
-//   {
-//     id: "7",
-//     name: "Business G",
-//     address: "Jl. Sakura No. 7",
-//     phone: "0838-9999-0000",
-//     email: "businessG@example.com",
-//     description: "Platform marketplace lokal untuk produk-produk handmade dan kerajinan asli Indonesia.",
-//     imageUrl: "https://source.unsplash.com/400x300/?market",
-//   },
-//   {
-//     id: "8",
-//     name: "Business H",
-//     address: "Jl. Teratai No. 8",
-//     phone: "0819-1234-5678",
-//     email: "businessH@example.com",
-//     description: "Konsultan teknologi dan pengembangan software custom untuk bisnis digital.",
-//     imageUrl: "https://source.unsplash.com/400x300/?technology",
-//   },
-// ];
-
-// const categories = ["All", "Consulting", "Marketing", "Design", "Finance", "Training"];
+const categories = ["All", "Technology", "Design", "Education", "Social", "Finance"];
 
 const ExplorePage = () => {
-    // <NavBar/>
   const [search, setSearch] = useState("");
-//   const [selectedCategory, setSelectedCategory] = useState("All");
+  const [selectedCategory, setSelectedCategory] = useState("All");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
-  // console.log("AAA")
-  const {projects, projectLoading, projectError, fetchProjects} = useFetchProjects();
+
+  const { projects, fetchProjects } = useFetchProjects();
 
   useEffect(() => {
     fetchProjects();
   }, []);
-  // fetchProjects();
 
-  // console.log(project)
+  const filteredProjects = useMemo(() => {
+    if (!projects) return [];
 
+    let filtered = [...projects];
 
-  // const filteredProjects = useMemo(() => {
-  //   let projects = project;
-  //   if (search.trim()) {
-  //     const lowerSearch = search.toLowerCase();
-  //     projects = projects.filter(
-  //       (p) => project
-  //         p..toLowerCase().includes(lowerSearch) ||
-  //         p.description.toLowerCase().includes(lowerSearch)
-  //     );
-  //   }
+    // Filter by search
+    if (search.trim()) {
+      const keyword = search.toLowerCase();
+      filtered = filtered.filter(
+        (p) =>
+          p.OrganizationName.toLowerCase().includes(keyword) ||
+          p.Description.toLowerCase().includes(keyword)
+      );
+    }
 
-  //   projects = projects.sort((a, b) => {
-  //     if (sortOrder === "asc") return a.name.localeCompare(b.name);
-  //     else return b.name.localeCompare(a.name);
-  //   });
+    // Filter by category
+    if (selectedCategory !== "All") {
+      filtered = filtered.filter((p) => p.Category === selectedCategory);
+    }
 
-  //   return projects;
-  // }, []);
+    // Sort
+    filtered.sort((a, b) =>
+      sortOrder === "asc"
+        ? a.OrganizationName.localeCompare(b.OrganizationName)
+        : b.OrganizationName.localeCompare(a.OrganizationName)
+    );
+
+    return filtered;
+  }, [projects, search, selectedCategory, sortOrder]);
 
   return (
     <div>
-        <NavBar/>
-        
-        <section className="min-h-screen bg-gray-50 py-24 px-6">
-        <div className="max-w-7xl mx-auto">
-            <h1 className="text-center text-4xl font-bold text-[#B82132] mb-10">Explore Projects</h1>
+      <NavBar />
 
-            {/* Controls */}
-            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-            <input
-                type="text"
-                placeholder="Search projects..."
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                className="w-full max-w-md rounded-full border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#D2665A] shadow-sm text-gray-700"
-            />
+      <section className="min-h-screen bg-gray-50 py-16 px-4">
+        <div className="max-w-5xl mx-auto mt-10">
+          <h1 className="text-center text-3xl font-bold text-[#B82132] mb-8">Explore Projects</h1>
+
+          {/* Filters */}
+
+<div className="flex flex-col gap-4 items-center mb-10">
+  {/* Search Input */}
+  <input
+    type="text"
+    placeholder="Search projects..."
+    value={search}
+    onChange={(e) => setSearch(e.target.value)}
+    className="w-full md:max-w-md rounded-full border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-[#D2665A] text-gray-700"
+  />
+
+  {/* Category & Sort */}
+  <div className="flex flex-wrap justify-center gap-4">
+    <select
+      value={selectedCategory}
+      onChange={(e) => setSelectedCategory(e.target.value)}
+      className="rounded-full border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-[#D2665A]"
+    >
+      {categories.map((cat) => (
+        <option key={cat} value={cat}>{cat}</option>
+      ))}
+    </select>
+
+    <select
+      value={sortOrder}
+      onChange={(e) => setSortOrder(e.target.value as "asc" | "desc")}
+      className="rounded-full border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-[#D2665A]"
+    >
+      <option value="asc">Sort: A-Z</option>
+      <option value="desc">Sort: Z-A</option>
+    </select>
+  </div>
+</div>
 
 
-            <select
-                className="rounded-full border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#D2665A] shadow-sm"
-                value={sortOrder}
-                onChange={(e) => setSortOrder(e.target.value as "asc" | "desc")}
-            >
-                <option value="asc">Sort: A-Z</option>
-                <option value="desc">Sort: Z-A</option>
-            </select>
-            </div>
-
-            {/* Projects grid */}
-            <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {projects ? (
-                projects.map((project: ProjectResponse, i: number) => (
+          {/* Project List */}
+          <div className="space-y-6">
+            {filteredProjects.length > 0 ? (
+              filteredProjects.map((project, i) => (
                 <div
-                    key={project.id}
-                    className="opacity-0 translate-y-4 animate-[fadeIn_0.5s_ease-out_forwards] transition-transform duration-500 ease-in-out hover:scale-105 hover:shadow-lg"
-                    style={{ animationDelay: `${i * 100}ms` }}
+                  key={project.id}
+                  className="opacity-0 animate-[fadeIn_0.4s_ease-out_forwards] transition-transform duration-500"
+                  style={{ animationDelay: `${i * 80}ms` }}
                 >
-                    <Card {...project}/>
+                  <CardHorizontal {...project} />
                 </div>
-                ))
+              ))
             ) : (
-                <p className="text-center text-gray-500 col-span-full mt-10">No projects found.</p>
+              <p className="text-center text-gray-500">No projects found.</p>
             )}
-            </div>
+          </div>
         </div>
-        
-        </section>
-        {/* <button onClick={fetchProjects}>hello</button> */}
+      </section>
 
-        <Footer/>
+      <Footer />
     </div>
   );
 };

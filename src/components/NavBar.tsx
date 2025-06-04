@@ -1,25 +1,18 @@
 import { Link, useNavigate } from "react-router";
 import { useEffect, useState, useRef } from "react";
-import useSignOut from 'react-auth-kit/hooks/useSignOut';
-import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
-import useIsAuthenticated from 'react-auth-kit/hooks/useIsAuthenticated';
+import { useAuthUser, useSignOut } from "../auth/auth";
+// import type { UserType } from "../auth/auth";
 
-interface UserData{
-  email: string;
-  uid : string;
-  role : string[];
-}
+
 
 const NavBar = () => {
   const [role, setRole] = useState("");
   const [query, setQuery] = useState("");
   const navigate = useNavigate();
   const signOut = useSignOut();
-  const authUser = useAuthUser<UserData>();
-  // console.log(authUser)
-  // const user = authUser();
-  const isAuthenticated = useIsAuthenticated(); // hasilnya boolean
-  console.log(isAuthenticated);
+  const user = useAuthUser();
+  // const isAuthenticated = useIsAuthenticated();
+  // console.log(isAuthenticated);
   
   // State untuk navbar visibility dan transparansi
   const [showNav, setShowNav] = useState(true);
@@ -31,8 +24,10 @@ const NavBar = () => {
   useEffect(() => {
     // const name = authUser.name;
     // console.log(auth.user)
-    if(authUser){
-      setRole(authUser.role[1]);
+    if (user && user._t) {
+      setRole(user._t[1])
+    } else{
+      console.log("auth tidak ada")
     }
     // console.log(authUser)
   }, []);
@@ -69,7 +64,10 @@ const NavBar = () => {
     navigate("/login");
   };
 
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
+
+  console.log(role)
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (query.trim()) {
@@ -120,20 +118,57 @@ const NavBar = () => {
       Login
     </Link>
   ) : (
-    <>
-      <Link
-        to="/start-project"
-        className="bg-[#F6DED8] text-[#B82132] px-4 py-2 rounded-xl hover:bg-[#F2B28C] transition text-sm font-medium"
-      >
-        Start Project
-      </Link>
+    <div className="relative inline-block text-left">
       <button
-        onClick={handleLogout}
-        className="bg-[#B82132] text-white px-4 py-2 rounded-xl hover:bg-[#D2665A] transition"
+        onClick={() => setDropdownOpen((prev) => !prev)}
+        className="focus:outline-none"
       >
-        Logout
+        <img
+          src="https://i.pravatar.cc/150?img=8"
+          alt="Profile"
+          className="w-10 h-10 rounded-full object-cover border border-gray-300"
+        />
       </button>
-    </>
+
+      {dropdownOpen && (
+        <div className="absolute right-0 mt-2 w-40 bg-white shadow-md rounded-lg z-50">
+          <Link
+            to="/user-page"
+            className="block px-4 py-2 text-sm hover:bg-gray-100 text-gray-700"
+            onClick={() => setDropdownOpen(false)}
+          >
+            User Page
+          </Link>
+          {role === "Sponsoree" ? (
+            <Link
+              to={`/explore/${user?.id}`}
+              className="block px-4 py-2 text-sm hover:bg-gray-100 text-gray-700"
+              onClick={() => setDropdownOpen(false)}
+            >
+              My Project
+            </Link>
+            ) : (
+              <Link
+                to={`/evaluate`}
+                className="block px-4 py-2 text-sm hover:bg-gray-100 text-gray-700"
+                onClick={() => setDropdownOpen(false)}
+              >
+                Evaluate
+              </Link>
+            )
+          }
+          <button
+            onClick={() => {
+              handleLogout();
+              setDropdownOpen(false);
+            }}
+            className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100 text-red-600"
+          >
+            Logout
+          </button>
+        </div>
+      )}
+    </div>
   )}
 </div>
     </section>

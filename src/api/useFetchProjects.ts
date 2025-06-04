@@ -15,6 +15,8 @@ export type ProjectResponse =  {
     // age : string;
     id: string;
     _t: string[];
+    Goals: string;
+    Description : string;
 }
 
 export const useFetchProjects = () => {
