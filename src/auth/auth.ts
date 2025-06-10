@@ -25,7 +25,7 @@ export type UserType = {
   PersonalAddress?: string;
   Age?: string;
   Goal?:string;
-  Desccription?:string;
+  Description?:string;
   Sponsored?: string;
 };
 

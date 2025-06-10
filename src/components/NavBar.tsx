@@ -24,11 +24,19 @@ const NavBar = () => {
   useEffect(() => {
     // const name = authUser.name;
     // console.log(auth.user)
-    if (user && user._t) {
-      setRole(user._t[1])
-    } else{
-      console.log("auth tidak ada")
+    
+    // console.log("NavBar user:", user);
+    if (user && user._t && user._t.includes("Admin")) {
+      setRole("admin");
+    } else {
+      setRole("user");
     }
+
+    // if (user && user._t) {
+    //   setRole(user._t[1])
+    // } else{
+    //   console.log("auth tidak ada")
+    // }
     // console.log(authUser)
   }, []);
 
@@ -93,9 +101,46 @@ const NavBar = () => {
         <Link to="/aboutus" className="text-gray-500 hover:text-[#B82132]">About Us</Link>
         <Link to="/contactus" className="text-gray-500 hover:text-[#B82132]">Contact Us</Link>
         {role === "admin" && (
-            <Link to="/manage" className="text-gray-500 hover:text-[#B82132] font-semibold">
-            Manage
-            </Link>
+          <div className="relative group">
+            <button className="text-gray-500 hover:text-[#B82132]">
+              Manage
+              <svg className="inline-block w-4 h-4 ml-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            <div className="absolute left-0 mt-2 w-48 bg-white shadow-md rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-50">
+              <ul className="py-2">
+                {user?.CanManageAdmins && (
+                  <li>
+                    <Link to="/manage/admins" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                      Admins
+                    </Link>
+                  </li>
+                )}
+                {user?.CanManageUsers && (
+                  <li>
+                    <Link to="/manage/users" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                      Users
+                    </Link>
+                  </li>
+                )}
+                {user?.CanManageEvents && (
+                  <li>
+                    <Link to="/manage/events" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                      Events
+                    </Link>
+                  </li>
+                )}
+                {user?.CanManageStatus && (
+                  <li>
+                    <Link to="/manage/status" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                      Status
+                    </Link>
+                  </li>
+                )}
+              </ul>
+            </div>
+          </div>
         )}
       </div>
 
