@@ -28,8 +28,11 @@ const NavBar = () => {
     // console.log("NavBar user:", user);
     if (user && user._t && user._t.includes("Admin")) {
       setRole("admin");
-    } else {
+    } else if (user){
       setRole("user");
+    }
+    else{
+      setRole("")
     }
 
     // if (user && user._t) {
@@ -110,13 +113,6 @@ const NavBar = () => {
             </button>
             <div className="absolute left-0 mt-2 w-48 bg-white shadow-md rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-50">
               <ul className="py-2">
-                {user?.CanManageAdmins && (
-                  <li>
-                    <Link to="/manage/admins" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">
-                      Admins
-                    </Link>
-                  </li>
-                )}
                 {user?.CanManageUsers && (
                   <li>
                     <Link to="/manage/users" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">
@@ -178,11 +174,11 @@ const NavBar = () => {
       {dropdownOpen && (
         <div className="absolute right-0 mt-2 w-40 bg-white shadow-md rounded-lg z-50">
           <Link
-            to="/user-page"
+            to="/profile"
             className="block px-4 py-2 text-sm hover:bg-gray-100 text-gray-700"
             onClick={() => setDropdownOpen(false)}
           >
-            User Page
+            Profile
           </Link>
           {role === "Sponsoree" ? (
             <Link

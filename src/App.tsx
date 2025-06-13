@@ -9,13 +9,15 @@ import ContactUsPage from "./page/ContactUsPage"
 import StartProjectPage from "./page/StartProjectPage"
 import ManagePage from "./page/ManagePage"
 
+// import ManageAdminsPage from "./page/ManageAdminsPage";
 import ManageUsersPage from "./page/ManageUsersPage";
 import ManageEventsPage from "./page/ManageEventsPage";
-import ManageAdminsPage from "./page/ManageAdminsPage";
 import ManageStatusPage from "./page/ManageStatusPage";
 import ProjectDetailPage from "./page/ProjectDetailPage"
 import InvestPage from "./page/InvestPage"
 import MentoringEvaluationPage from "./page/MentoringEvaluatingPage"
+
+import ProfilePage from "./page/ProfilePage"
 // import HomePage2 from "./page/HomePage2"
 // import createStore from 'react-auth-kit/createStore';
 // import AuthProvider from 'react-auth-kit';
@@ -39,11 +41,10 @@ function App() {
         <Route path="/evaluate" element={<MentoringEvaluationPage />} />
         <Route path="/invest" element={<InvestPage />} />
 
-
         <Route path="/manage/users" element={<ManageUsersPage />} />
         <Route path="/manage/events" element={<ManageEventsPage />} />
-        <Route path="/manage/admins" element={<ManageAdminsPage />} />
         <Route path="/manage/status" element={<ManageStatusPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
         
       </Routes>
     // </ AuthProvider>
