@@ -6,8 +6,8 @@ const ManageEventsPage = () => {
     <div className="min-h-screen flex flex-col">
       <NavBar />
       <main className="flex-grow p-6 mt-20">
-        <h1 className="text-3xl font-bold mb-4">Manage Users</h1>
-        <p>This is where you’ll manage registered users.</p>
+        <h1 className="text-3xl font-bold mb-4">Manage Events</h1>
+        <p>This is where you'll manage registered events.</p>
         {/* TODO: Add user table, actions, etc. */}
       </main>
       <Footer />
