@@ -105,7 +105,7 @@ const NavBar = ({ forceSolidBackground = false }: NavBarProps) => {
         </Link>
         <Link to="/explore" className="text-gray-500 hover:text-[#B82132]">Explore</Link>
         <Link to="/aboutus" className="text-gray-500 hover:text-[#B82132]">About Us</Link>
-        <Link to="/contactus" className="text-gray-500 hover:text-[#B82132]">Contact Us</Link>
+        <Link to="/contact-us" className="text-gray-500 hover:text-[#B82132]">Contact Us</Link>
         {role === "admin" && (
           <div className="relative group">
             <Link to="/manage" className="text-gray-500 hover:text-[#B82132]">Manage</Link>

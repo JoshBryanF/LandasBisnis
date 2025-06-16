@@ -3,8 +3,12 @@ import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
 import { useAuthUser } from "../auth/auth";
 import { Pencil, Camera } from "lucide-react";
+import { axiosInstance } from "../lib/axiosInstance";
+import { useNavigate } from "react-router";
 
 const ProfilePage = () => {
+  const navigate = useNavigate();
+
   const user = useAuthUser();
 
   const [form, setForm] = useState({
@@ -28,6 +32,14 @@ const ProfilePage = () => {
 
   const handleEditClick = (field: keyof typeof editing) => {
     setEditing((prev) => ({ ...prev, [field]: true }));
+  };
+
+  const handleEditAll = () => {
+    setEditing({
+      name: true,
+      email: true,
+      password: false,
+    });
   };
 
   const handleInputChange = (field: string, value: string) => {
@@ -88,14 +100,29 @@ const ProfilePage = () => {
   };
 
   const handleSave = () => {
-    // TODO: Replace with actual save logic later
-    console.log("Saved:", form);
-    setEditing({
-      name: false,
-      email: false,
-      password: false,
-    });
-    setAvatarChanged(false);
+    if (!user) return;
+
+    const updatedData = {
+      ...user,
+      Name: form.name,
+      Email: form.email,
+      Password: form.password || user.Password, // preserve existing password if unchanged
+    };
+
+    axiosInstance
+      .put(`/user/${user.id}`, updatedData)
+      .then(() => {
+        console.log("Updated successfully!");
+        setEditing({ name: false, email: false, password: false });
+        setAvatarChanged(false);
+      })
+      .catch((err) => {
+        console.error("Update failed:", err.message);
+        setErrors((prev) => ({
+          ...prev,
+          general: "Failed to update profile. Please try again.",
+        }));
+      });
   };
 
   const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -188,7 +215,7 @@ const ProfilePage = () => {
               <div>
                 <div className="flex items-center gap-2 mb-1">
                   <label className="text-[#B82132] font-bold text-lg">Password</label>
-                  <button onClick={() => handleEditClick("password")} className="hover:text-red-600 cursor-pointer transition-colors">
+                  <button onClick={() => navigate("/forgot-password")} className="hover:text-red-600 cursor-pointer transition-colors">
                     <Pencil className="w-4 h-4 text-gray-600" />
                   </button>
                 </div>
@@ -196,12 +223,8 @@ const ProfilePage = () => {
                   type="password"
                   value={form.password}
                   onChange={(e) => handleInputChange("password", e.target.value)}
-                  disabled={!editing.password}
-                  className={`w-full px-4 py-2 border rounded-md ${
-                    editing.password
-                      ? "bg-white border-gray-400"
-                      : "bg-gray-100 border-gray-200 text-gray-500"
-                  }`}
+                  disabled
+                  className="w-full px-4 py-2 border rounded-md bg-gray-100 border-gray-200 text-gray-500"
                 />
                 {errors.password && <p className="text-sm text-red-500 mt-1">{errors.password}</p>}
               </div>
@@ -223,6 +246,18 @@ const ProfilePage = () => {
                 </>
               )}
             </div>
+
+            {/* Edit All Button */}
+            {!Object.values(editing).some(v => v) && !avatarChanged && (
+              <div className="flex justify-end w-full mt-6">
+                <button
+                  onClick={handleEditAll}
+                  className="px-4 py-2 bg-[#B82132] text-white rounded hover:bg-red-600"
+                >
+                  Edit
+                </button>
+              </div>
+            )}
 
             {/* Save / Cancel Buttons */}
             {(Object.values(editing).some((v) => v) || avatarChanged) && (
