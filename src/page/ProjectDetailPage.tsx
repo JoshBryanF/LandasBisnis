@@ -106,16 +106,16 @@ const ProjectDetailPage = () => {
         <p className="text-gray-700 font-semibold mb-4">Goal: {project.Goals}</p>
 
         {!isOwner && (
-          <div className="mt-8 p-6 border rounded-lg shadow bg-white">
-            <h2 className="text-xl font-semibold mb-4 text-[#B82132]">Support This Project</h2>
+          <div className="mt-8 p-6 border rounded-lg shadow bg-[#B82132]">
+            <h2 className="text-xl font-semibold mb-4 text-white">Support This Project</h2>
 
-            <label className="block mb-2 font-medium">Send a message to the organization:</label>
+            <label className="block mb-2 font-medium text-gray-200">Send a message to the organization:</label>
             <textarea
-              className="w-full border rounded p-2"
+              className="w-full border rounded p-2 bg-white"
               rows={4}
               placeholder="Write your message here..."
             />
-            <Link to={'/invest'} className="mt-4 bg-[#B82132] text-white px-4 py-2 rounded inline-block">
+            <Link to={'/invest'} className="mt-4 bg-white text-black px-4 py-2 rounded inline-block font-semibold">
               Invest
             </Link>
           </div>
