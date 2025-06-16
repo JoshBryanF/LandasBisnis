@@ -3,9 +3,11 @@ import { useEffect, useState, useRef } from "react";
 import { useAuthUser, useSignOut } from "../auth/auth";
 // import type { UserType } from "../auth/auth";
 
+type NavBarProps = {
+  forceSolidBackground?: boolean;
+};
 
-
-const NavBar = () => {
+const NavBar = ({ forceSolidBackground = false }: NavBarProps) => {
   const [role, setRole] = useState("");
   const [query, setQuery] = useState("");
   const navigate = useNavigate();
@@ -28,11 +30,10 @@ const NavBar = () => {
     // console.log("NavBar user:", user);
     if (user && user._t && user._t.includes("Admin")) {
       setRole("admin");
-    } else if (user){
-      setRole("user");
-    }
-    else{
-      setRole("")
+    } else if (user && user._t && user._t.includes("Sponsoree")){
+      setRole("sponsoree");
+    } else if (user && user._t && user._t.includes("Sponsor")){
+      setRole("sponsor")
     }
 
     // if (user && user._t) {
@@ -90,9 +91,11 @@ const NavBar = () => {
     <section
       className={`fixed top-0 left-0 w-full h-16 px-6 flex items-center justify-between transition-all duration-300 z-50
       ${
-        isTop
-          ? "bg-transparent shadow-none"
-          : "bg-white shadow-md"
+        forceSolidBackground
+          ? "bg-white shadow-none"
+          : isTop
+              ? "bg-transparent shadow-none"
+              : "bg-white shadow-md"
       }
       ${showNav ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0"}`}
     >
@@ -105,37 +108,7 @@ const NavBar = () => {
         <Link to="/contactus" className="text-gray-500 hover:text-[#B82132]">Contact Us</Link>
         {role === "admin" && (
           <div className="relative group">
-            <button className="text-gray-500 hover:text-[#B82132]">
-              Manage
-              <svg className="inline-block w-4 h-4 ml-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-              </svg>
-            </button>
-            <div className="absolute left-0 mt-2 w-48 bg-white shadow-md rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-50">
-              <ul className="py-2">
-                {user?.CanManageUsers && (
-                  <li>
-                    <Link to="/manage/users" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">
-                      Users
-                    </Link>
-                  </li>
-                )}
-                {user?.CanManageEvents && (
-                  <li>
-                    <Link to="/manage/events" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">
-                      Events
-                    </Link>
-                  </li>
-                )}
-                {user?.CanManageStatus && (
-                  <li>
-                    <Link to="/manage/status" className="block px-4 py-2 text-gray-700 hover:bg-gray-100">
-                      Status
-                    </Link>
-                  </li>
-                )}
-              </ul>
-            </div>
+            <Link to="/manage" className="text-gray-500 hover:text-[#B82132]">Manage</Link>
           </div>
         )}
       </div>
@@ -180,14 +153,23 @@ const NavBar = () => {
           >
             Profile
           </Link>
-          {role === "Sponsoree" ? (
-            <Link
-              to={`/explore/${user?.id}`}
-              className="block px-4 py-2 text-sm hover:bg-gray-100 text-gray-700"
-              onClick={() => setDropdownOpen(false)}
-            >
-              My Project
-            </Link>
+          {role === "sponsoree" ? (
+            <>
+              <Link
+                to={`/explore/${user?.id}`}
+                className="block px-4 py-2 text-sm hover:bg-gray-100 text-gray-700"
+                onClick={() => setDropdownOpen(false)}
+                >
+                My Project
+              </Link>
+              <Link
+                to={`/start-project`}
+                className="block px-4 py-2 text-sm hover:bg-gray-100 text-gray-700"
+                onClick={() => setDropdownOpen(false)}
+                >
+                Start New Project
+              </Link>
+            </>
             ) : (
               <Link
                 to={`/evaluate`}
