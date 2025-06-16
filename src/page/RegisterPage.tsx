@@ -86,16 +86,33 @@ const RegisterPage = () => {
       />
       Sponsoree
     </label>
+                  <div className="mt-3 text-xs text-[#B82132] flex items-center gap-2">
+                    <input
+                      type="checkbox"
+                      id="terms"
+                      className="accent-[#D2665A] w-4 h-4"
+                      required
+                    />
+                    <label htmlFor="terms" className="flex items-center">
+                      I agree to the&nbsp;
+                      <Link
+                        to="/terms-and-conditions"
+                        className="underline text-[#D2665A] hover:text-[#B82132]"
+                      >
+                        Terms and Conditions
+                      </Link>
+                    </label>
+                  </div>
 
                     <button className="bg-[#B82132] text-white rounded-xl py-2 hover:bg-[#D2665A] duration-300">Register</button>
                     {createUserLoading && <p className="text-blue-600 text-sm animate-pulse">Loading...</p>}
                     {createUserError && <p className="mt-1 text-sm text-red-500 bg-red-50 px-3 py-1 rounded">Error occured while registering</p> }
                 </form>
+                  <div className="mt-3 text-xs flex justify-between items-center text-[#B82132]">
+                      <p>Already have an account?</p>
+                      <Link to="/login" className="py-2 px-5 bg-white border border-[#D2665A] text-[#D2665A] rounded-xl hover:bg-[#F6DED8] duration-300">Login</Link>
+                  </div>
 
-                <div className="mt-3 text-xs flex justify-between items-center text-[#B82132]">
-                    <p>Already have an account?</p>
-                    <Link to="/login" className="py-2 px-5 bg-white border border-[#D2665A] text-[#D2665A] rounded-xl hover:bg-[#F6DED8] duration-300">Login</Link>
-                </div>
                 </div>
 
                 <div className="md:block hidden w-1/2">
