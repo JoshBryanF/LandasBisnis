@@ -1,8 +1,13 @@
 import React, { useState } from "react";
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
+import { useCreateFeedback } from "../api/useCreateFeedback";
+
 
 const ContactUsPage: React.FC = () => {
+  const { createFeedback } = useCreateFeedback();
+  const [submitted, setSubmitted] = useState(false);
+
   const [formData, setFormData] = useState({
     topic: "",
     category: "",
@@ -15,10 +20,14 @@ const ContactUsPage: React.FC = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(formData);
-    // Optional: handle actual form submission here
+    try {
+      await createFeedback(formData);
+      setSubmitted(true);
+    } catch (err) {
+      alert("Failed to send feedback.");
+    }
   };
 
   return (
@@ -32,6 +41,12 @@ const ContactUsPage: React.FC = () => {
             Have questions or feedback? We'd love to hear from you.
           </p>
 
+          {submitted ? (
+            <div className="text-center py-16">
+              <h2 className="text-2xl font-bold text-green-600 mb-4">Thank you!</h2>
+              <p className="text-gray-700">Your message has been successfully sent. We'll get back to you soon.</p>
+            </div>
+          ) : (
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
               <label className="block font-semibold text-[#B82132] mb-1">Topic</label>
@@ -76,11 +91,12 @@ const ContactUsPage: React.FC = () => {
 
             <button
               type="submit"
-              className="bg-[#B82132] text-white px-6 py-3 rounded-lg hover:bg-red-700 transition-colors"
+              className="bg-[#B82132] text-white px-6 py-3 rounded-lg hover:bg-red-600 transition-colors"
             >
               Send Message
             </button>
           </form>
+          )}
         </div>
       </div>
 

@@ -58,7 +58,7 @@ const LoginPage = () => {
                     
 
                     <div className="mt-5 text-xs border-b border-[#B82132] py-4 text-[#B82132]">
-                        <a href="#">Forgot your password?</a>
+                        <Link to="/forgot-password">Forgot your password?</Link>
                     </div>
 
                     <div className="mt-3 text-xs flex justify-between items-center text-[#B82132]">
