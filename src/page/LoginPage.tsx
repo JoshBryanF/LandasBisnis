@@ -52,13 +52,13 @@ const LoginPage = () => {
                         </div>
 
                         <button className="bg-[#B82132] rounded-xl text-white py-2 hover:bg-[#F6DED8] duration-300">Login</button>
-                        {loginError && <p>error bg</p> }
+                        {loginError }
                     </form>
 
                     
 
                     <div className="mt-5 text-xs border-b border-[#B82132] py-4 text-[#B82132]">
-                        <a href="#">Forgot your password?</a>
+                        <Link to="/forgot-password">Forgot your password?</Link>
                     </div>
 
                     <div className="mt-3 text-xs flex justify-between items-center text-[#B82132]">

@@ -6,9 +6,10 @@ import { useState } from "react";
 import { axiosInstance } from "../lib/axiosInstance";
 
 type user = {
-    name : string,
-    email : string,
-    password :string
+    Name : string,
+    Email : string,
+    Password :string,
+    role : string
 }
 
 export const useCreateUser = () =>{
@@ -21,9 +22,10 @@ export const useCreateUser = () =>{
             setCreateUserLoading(true)  
             // end point API untuk user  
             await axiosInstance.post("/user", {
-                name : payload.name,
-                email : payload.email,
-                password : payload.password
+                Name : payload.Name,
+                Email : payload.Email,
+                Password : payload.Password,
+                _t : ["user", payload.role]
             })
         } catch (error) {
             setCreateUserError((error as TypeError).message)

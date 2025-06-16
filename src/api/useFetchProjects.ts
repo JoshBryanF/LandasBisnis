@@ -6,7 +6,7 @@ export type ProjectResponse =  {
     // Name: string;
     // Email : string;
     // Password : string;
-    organizationName : string;
+    OrganizationName : string;
     OrganizationAddress : string;
     OrganizationPhoneNumber : string;
     OrganizationEmail: string;
@@ -15,6 +15,8 @@ export type ProjectResponse =  {
     // age : string;
     id: string;
     _t: string[];
+    Goals: string;
+    Description : string;
 }
 
 export const useFetchProjects = () => {
@@ -32,8 +34,8 @@ export const useFetchProjects = () => {
             item._t.includes("User") &&
             item._t.includes("Sponsoree")
             );
-            console.log(sponsoreeOnly)
-            console.log(Array.isArray(response.data)); 
+            // console.log(sponsoreeOnly)
+            // console.log(Array.isArray(response.data)); 
             setProjects(sponsoreeOnly)
         } catch (error) {
             setProjectError((error as TypeError).message)

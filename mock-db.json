@@ -50,7 +50,8 @@
         "User",
         "Sponsor"
       ],
-      "id": "695c"
+      "id": "695c",
+      "Sponsored": "6edc"
     },
     {
       "_id": {
@@ -84,31 +85,240 @@
       "PersonalPhoneNumber": "08991234567",
       "PersonalAddress": "Jl. Damai No.3",
       "Age": 25,
+      "Goals": "Rp100.000.000",
+      "Description": "Organisasi ini berfokus pada penyediaan layanan medis gratis.",
       "_t": [
         "User",
         "Sponsoree"
       ],
-      "id": "2a86"
+      "id": "2a86",
+      "Status": "Proposed"
     },
     {
-      "_id": {
-        "$oid": "6650e1c00100000000000006"
-      },
+      "id": "6edc",
       "Name": "Sponsoree Delta",
       "Email": "delta@org.com",
       "Password": "hashedpass6",
-      "OrganizationName": "Delta Youth",
-      "OrganizationAddress": "Jl. Pemuda No.9",
-      "OrganizationPhoneNumber": "0217777777",
-      "OrganizationEmail": "contact@delta.org",
-      "PersonalPhoneNumber": "08881231234",
-      "PersonalAddress": "Jl. Muda No.12",
+      "OrganizationName": "Delta Charity",
+      "OrganizationAddress": "Jl. Bakti No.8",
+      "OrganizationPhoneNumber": "0987654321",
+      "OrganizationEmail": "delta@mail.com",
+      "PersonalPhoneNumber": "0987654321",
+      "PersonalAddress": "Jl. Rukun No.4",
       "Age": 30,
+      "Goals": "Rp30.000.000",
+      "Description": "Penggalangan dana untuk pembangunan klinik darurat di daerah rawan.",
       "_t": [
         "User",
         "Sponsoree"
       ],
-      "id": "6edc"
+      "Status": "Rejected"
+    },
+    {
+      "id": "d993",
+      "Name": "Sponsoree Test",
+      "Email": "yey@gmail.com",
+      "Password": "1234567890",
+      "OrganizationName": "Yey Foundation",
+      "OrganizationAddress": "Jl. Harapan No.99",
+      "OrganizationPhoneNumber": "0987654321",
+      "OrganizationEmail": "test@mail.com",
+      "PersonalPhoneNumber": "0987654321",
+      "PersonalAddress": "Jl. Damai No.1",
+      "Age": 28,
+      "Goals": "Rp75.000.000",
+      "Description": "Kami ingin menciptakan lingkungan belajar yang aman dan nyaman.",
+      "_t": [
+        "User",
+        "Sponsoree"
+      ],
+      "Status": "Accepted"
+    },
+    {
+      "id": "912f",
+      "Name": "Sponsoree Omega",
+      "Email": "omega@org.com",
+      "Password": "hashedpass7",
+      "OrganizationName": "Omega Peduli",
+      "OrganizationAddress": "Jl. Sehat No.12",
+      "OrganizationPhoneNumber": "0812121212",
+      "OrganizationEmail": "omega@peduli.org",
+      "PersonalPhoneNumber": "08123456700",
+      "PersonalAddress": "Jl. Tenang No.5",
+      "Age": 33,
+      "Goals": "Rp100.000.000",
+      "Description": "Menggalang dana untuk program beasiswa anak-anak kurang mampu.",
+      "_t": [
+        "User",
+        "Sponsoree"
+      ],
+      "Status": "Rejected"
+    },
+    {
+      "id": "77fe",
+      "Name": "Sponsoree Zeta",
+      "Email": "zeta@hope.org",
+      "Password": "hashedpass8",
+      "OrganizationName": "Zeta Hope",
+      "OrganizationAddress": "Jl. Pendidikan No.21",
+      "OrganizationPhoneNumber": "022334455",
+      "OrganizationEmail": "hope@zeta.org",
+      "PersonalPhoneNumber": "0855001122",
+      "PersonalAddress": "Jl. Maju Terus No.6",
+      "Age": 26,
+      "Goals": "Rp60.000.000",
+      "Description": "Dana diperlukan untuk membangun ruang belajar digital di desa.",
+      "_t": [
+        "User",
+        "Sponsoree"
+      ],
+      "Status": "Proposed"
+    },
+    {
+      "id": "bc11",
+      "Name": "Sponsoree Alpha",
+      "Email": "alpha@edu.org",
+      "Password": "hashedpass9",
+      "OrganizationName": "Alpha Learn",
+      "OrganizationAddress": "Jl. Cerdas No.2",
+      "OrganizationPhoneNumber": "0858000111",
+      "OrganizationEmail": "contact@alpha.edu",
+      "PersonalPhoneNumber": "0858011223",
+      "PersonalAddress": "Jl. Inovasi No.7",
+      "Age": 29,
+      "Goals": "Rp40.000.000",
+      "Description": "Menyediakan alat tulis dan buku untuk anak sekolah.",
+      "_t": [
+        "User",
+        "Sponsoree"
+      ],
+      "Status": "Accepted"
+    },
+    {
+      "id": "cd22",
+      "Name": "Sponsoree Beta",
+      "Email": "beta@org.org",
+      "Password": "hashedpass10",
+      "OrganizationName": "Beta Vision",
+      "OrganizationAddress": "Jl. Impian No.5",
+      "OrganizationPhoneNumber": "0877123456",
+      "OrganizationEmail": "beta@vision.org",
+      "PersonalPhoneNumber": "0877888999",
+      "PersonalAddress": "Jl. Bina Muda No.9",
+      "Age": 32,
+      "Goals": "Rp65.000.000",
+      "Description": "Pelatihan kerja untuk pemuda putus sekolah.",
+      "_t": [
+        "User",
+        "Sponsoree"
+      ],
+      "Status": "Rejected"
+    },
+    {
+      "id": "ee44",
+      "Name": "Sponsoree Theta",
+      "Email": "theta@hope.id",
+      "Password": "hashedpass11",
+      "OrganizationName": "Theta Foundation",
+      "OrganizationAddress": "Jl. Harapan Baru No.15",
+      "OrganizationPhoneNumber": "0812223344",
+      "OrganizationEmail": "theta@hope.id",
+      "PersonalPhoneNumber": "0812233445",
+      "PersonalAddress": "Jl. Perubahan No.3",
+      "Age": 27,
+      "Goals": "Rp85.000.000",
+      "Description": "Pengadaan ambulans untuk daerah tanpa akses kesehatan.",
+      "_t": [
+        "User",
+        "Sponsoree"
+      ],
+      "Status": "Proposed"
+    },
+    {
+      "id": "ff55",
+      "Name": "Sponsoree Epsilon",
+      "Email": "epsilon@edu.org",
+      "Password": "hashedpass12",
+      "OrganizationName": "Epsilon Care",
+      "OrganizationAddress": "Jl. Mandiri No.6",
+      "OrganizationPhoneNumber": "0819988776",
+      "OrganizationEmail": "epsilon@care.org",
+      "PersonalPhoneNumber": "0819887765",
+      "PersonalAddress": "Jl. Merdeka No.14",
+      "Age": 31,
+      "Goals": "Rp90.000.000",
+      "Description": "Program gizi untuk balita di desa terpencil.",
+      "_t": [
+        "User",
+        "Sponsoree"
+      ],
+      "Status": "Proposed"
+    },
+    {
+      "id": "gg66",
+      "Name": "Sponsoree Sigma",
+      "Email": "sigma@social.org",
+      "Password": "hashedpass13",
+      "OrganizationName": "Sigma Social",
+      "OrganizationAddress": "Jl. Sosial No.3",
+      "OrganizationPhoneNumber": "0856789090",
+      "OrganizationEmail": "sigma@social.org",
+      "PersonalPhoneNumber": "0856909090",
+      "PersonalAddress": "Jl. Damai No.9",
+      "Age": 34,
+      "Goals": "Rp120.000.000",
+      "Description": "Pengadaan air bersih untuk desa kering.",
+      "_t": [
+        "User",
+        "Sponsoree"
+      ],
+      "Status": "Proposed"
+    },
+    {
+      "id": "hh77",
+      "Name": "Sponsoree Nu",
+      "Email": "nu@edu.id",
+      "Password": "hashedpass14",
+      "OrganizationName": "Nu Cerdas",
+      "OrganizationAddress": "Jl. Cendekia No.10",
+      "OrganizationPhoneNumber": "0215551234",
+      "OrganizationEmail": "info@nu.org",
+      "PersonalPhoneNumber": "0899911223",
+      "PersonalAddress": "Jl. Sadar No.17",
+      "Age": 24,
+      "Goals": "Rp35.000.000",
+      "Description": "Membangun perpustakaan mini untuk anak-anak.",
+      "_t": [
+        "User",
+        "Sponsoree"
+      ],
+      "Status": "Accepted"
+    }
+  ],
+  "contact-message": [
+    {
+      "id": "70d7",
+      "topic": "Percobaan lihat berhasil atau enggak. YAY",
+      "category": "feedback",
+      "message": "aaaaaaa wowowwowo hebat"
+    },
+    {
+      "id": "82ed",
+      "topic": "another test, hopefully succeeds again",
+      "category": "bug",
+      "message": "incredible message here"
+    },
+    {
+      "id": "2726",
+      "topic": "I inquire your business or something something",
+      "category": "business",
+      "message": "The title is somehow longer than the description eh?"
+    },
+    {
+      "id": "c64c",
+      "topic": "test numero 4 (other)",
+      "category": "other",
+      "message": "what does the fox say"
     }
   ]
 }

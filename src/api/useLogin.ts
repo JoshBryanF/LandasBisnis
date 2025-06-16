@@ -1,42 +1,45 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
-// import axios from "axios";
-import { login } from "../utils/Auth"; // Sesuaikan path ke auth.ts
 import { axiosInstance } from "../lib/axiosInstance";
+import { useSignIn } from "../auth/auth";
+// import useAuthUser from "react-auth-kit/hooks/useAuthUser";
 
 // type Role = "admin" | "user";
 
 type user = {
     email: string;
-    password : string
+    password : string;
+    // token : string;
 }
 
 export function useLogin() {
-//   const [loginLoading, setLoginLoading] = useState(false);
+  const signIn = useSignIn();
   const [loginError, setLoginError] = useState("");
   const navigate = useNavigate();
 
   const handleLogin = async (data : user) => {
     try {
-      const response = await axiosInstance.get(`/user`, {
+      const response = await axiosInstance.get('/user', {
         params: {
           Email: data.email,
-          Password: data.password, // Plaintext untuk mock DB
+          Password: data.password,
         },
       });
 
-      if (response.data.length > 0) {
-        const user = response.data[0];
-        const role = user._t.includes("Admin") ? "admin" : "user";
+      const result = response.data
+      console.log(result)
+      signIn({
+        token : 'test',
+        expiresAt: new Date(Date.now() + 60 * 60 * 1000).toISOString(),
+        user: result[0]
+      })
 
-        login(role); // Simpan role ke localStorage
-        navigate("/");
-      } else {
-        setLoginError("Email atau password salah.");
-      }
+      navigate('/')
+      
     } catch (err) {
-      setLoginError("Terjadi kesalahan saat login.");
+      setLoginError(err.message);
     }
+    
   };
 
   return { handleLogin, loginError };

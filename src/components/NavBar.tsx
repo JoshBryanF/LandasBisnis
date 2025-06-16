@@ -1,22 +1,47 @@
 import { Link, useNavigate } from "react-router";
-import { getUser, logout } from "../utils/Auth";
 import { useEffect, useState, useRef } from "react";
+import { useAuthUser, useSignOut } from "../auth/auth";
+// import type { UserType } from "../auth/auth";
 
-const NavBar = () => {
-  const [role, setRole] = useState<"admin" | "user" | null>(null);
+type NavBarProps = {
+  forceSolidBackground?: boolean;
+};
+
+const NavBar = ({ forceSolidBackground = false }: NavBarProps) => {
+  const [role, setRole] = useState("");
   const [query, setQuery] = useState("");
   const navigate = useNavigate();
-
+  const signOut = useSignOut();
+  const user = useAuthUser();
+  // const isAuthenticated = useIsAuthenticated();
+  // console.log(isAuthenticated);
+  
   // State untuk navbar visibility dan transparansi
   const [showNav, setShowNav] = useState(true);
   const [isTop, setIsTop] = useState(true);
-
+  
   // Ref untuk menyimpan posisi scroll sebelumnya
   const lastScrollY = useRef(0);
-
+  
   useEffect(() => {
-    const user = getUser();
-    setRole(user?.role || null);
+    // const name = authUser.name;
+    // console.log(auth.user)
+    
+    // console.log("NavBar user:", user);
+    if (user && user._t && user._t.includes("Admin")) {
+      setRole("admin");
+    } else if (user && user._t && user._t.includes("Sponsoree")){
+      setRole("sponsoree");
+    } else if (user && user._t && user._t.includes("Sponsor")){
+      setRole("sponsor")
+    }
+
+    // if (user && user._t) {
+    //   setRole(user._t[1])
+    // } else{
+    //   console.log("auth tidak ada")
+    // }
+    // console.log(authUser)
   }, []);
 
   // Fungsi untuk handle scroll
@@ -46,12 +71,15 @@ const NavBar = () => {
   }, []);
 
   const handleLogout = () => {
-    logout();
-    setRole(null);
+    signOut();
+    // setRole(null);
     navigate("/login");
   };
 
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
+
+  console.log(role)
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (query.trim()) {
@@ -63,9 +91,11 @@ const NavBar = () => {
     <section
       className={`fixed top-0 left-0 w-full h-16 px-6 flex items-center justify-between transition-all duration-300 z-50
       ${
-        isTop
-          ? "bg-transparent shadow-none"
-          : "bg-white shadow-md"
+        forceSolidBackground
+          ? "bg-white shadow-none"
+          : isTop
+              ? "bg-transparent shadow-none"
+              : "bg-white shadow-md"
       }
       ${showNav ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0"}`}
     >
@@ -75,11 +105,11 @@ const NavBar = () => {
         </Link>
         <Link to="/explore" className="text-gray-500 hover:text-[#B82132]">Explore</Link>
         <Link to="/aboutus" className="text-gray-500 hover:text-[#B82132]">About Us</Link>
-        <Link to="/contactus" className="text-gray-500 hover:text-[#B82132]">Contact Us</Link>
+        <Link to="/contact-us" className="text-gray-500 hover:text-[#B82132]">Contact Us</Link>
         {role === "admin" && (
-            <Link to="/manage" className="text-gray-500 hover:text-[#B82132] font-semibold">
-            Manage
-            </Link>
+          <div className="relative group">
+            <Link to="/manage" className="text-gray-500 hover:text-[#B82132]">Manage</Link>
+          </div>
         )}
       </div>
 
@@ -102,20 +132,66 @@ const NavBar = () => {
       Login
     </Link>
   ) : (
-    <>
-      <Link
-        to="/start-project"
-        className="bg-[#F6DED8] text-[#B82132] px-4 py-2 rounded-xl hover:bg-[#F2B28C] transition text-sm font-medium"
-      >
-        Start Project
-      </Link>
+    <div className="relative inline-block text-left">
       <button
-        onClick={handleLogout}
-        className="bg-[#B82132] text-white px-4 py-2 rounded-xl hover:bg-[#D2665A] transition"
+        onClick={() => setDropdownOpen((prev) => !prev)}
+        className="focus:outline-none"
       >
-        Logout
+        <img
+          src="https://i.pravatar.cc/150?img=8"
+          alt="Profile"
+          className="w-10 h-10 rounded-full object-cover border border-gray-300"
+        />
       </button>
-    </>
+
+      {dropdownOpen && (
+        <div className="absolute right-0 mt-2 w-40 bg-white shadow-md rounded-lg z-50">
+          <Link
+            to="/profile"
+            className="block px-4 py-2 text-sm hover:bg-gray-100 text-gray-700"
+            onClick={() => setDropdownOpen(false)}
+          >
+            Profile
+          </Link>
+          {role === "sponsoree" ? (
+            <>
+              <Link
+                to={`/explore/${user?.id}`}
+                className="block px-4 py-2 text-sm hover:bg-gray-100 text-gray-700"
+                onClick={() => setDropdownOpen(false)}
+                >
+                My Project
+              </Link>
+              <Link
+                to={`/start-project`}
+                className="block px-4 py-2 text-sm hover:bg-gray-100 text-gray-700"
+                onClick={() => setDropdownOpen(false)}
+                >
+                Start New Project
+              </Link>
+            </>
+            ) : (
+              <Link
+                to={`/evaluate`}
+                className="block px-4 py-2 text-sm hover:bg-gray-100 text-gray-700"
+                onClick={() => setDropdownOpen(false)}
+              >
+                Evaluate
+              </Link>
+            )
+          }
+          <button
+            onClick={() => {
+              handleLogout();
+              setDropdownOpen(false);
+            }}
+            className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100 text-red-600"
+          >
+            Logout
+          </button>
+        </div>
+      )}
+    </div>
   )}
 </div>
     </section>

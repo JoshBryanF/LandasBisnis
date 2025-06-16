@@ -1,176 +1,196 @@
-import Footer from "../components/Footer";
-import NavBar from "../components/NavBar"
-import Card from "../components/Card";
-import { Link } from "react-router";
-import { useFetchProjects } from "../api/useFetchProjects";
 import { useEffect } from "react";
+import { useTrail, animated } from "@react-spring/web";
+import { Link } from "react-router";
 
-// const dummyData = [
-//   {
-//     id: "1",
-//     name: "Business A",
-//     address: "Jl. Mawar No. 1",
-//     phone: "0812-3456-7890",
-//     email: "businessA@example.com",
-//     description: "Kami menyediakan layanan konsultasi bisnis profesional dan terpercaya untuk pengembangan UMKM.",
-//     imageUrl: "https://source.unsplash.com/400x300/?office",
-//   },
-//   {
-//     id: "2",
-//     name: "Business B",
-//     address: "Jl. Melati No. 2",
-//     phone: "0821-7654-3210",
-//     email: "businessB@example.com",
-//     description: "Spesialis dalam solusi digital marketing dan manajemen media sosial untuk pelaku usaha.",
-//     imageUrl: "https://source.unsplash.com/400x300/?startup",
-//   },
-//   {
-//     id: "3",
-//     name: "Business C",
-//     address: "Jl. Kenanga No. 3",
-//     phone: "0852-1111-2222",
-//     email: "businessC@example.com",
-//     description: "Kami membantu bisnis Anda dengan layanan desain grafis profesional dan brand identity.",
-//     imageUrl: "https://source.unsplash.com/400x300/?coworking",
-//   },
-//   {
-//     id: "4",
-//     name: "Business D",
-//     address: "Jl. Anggrek No. 4",
-//     phone: "0877-3333-4444",
-//     email: "businessD@example.com",
-//     description: "Layanan akuntansi dan keuangan terpercaya untuk bisnis skala kecil dan menengah.",
-//     imageUrl: "https://source.unsplash.com/400x300/?meeting",
-//   },
-//   {
-//     id: "5",
-//     name: "Business E",
-//     address: "Jl. Flamboyan No. 5",
-//     phone: "0813-5555-6666",
-//     email: "businessE@example.com",
-//     description: "Menawarkan pelatihan dan workshop pengembangan diri serta kepemimpinan.",
-//     imageUrl: "https://source.unsplash.com/400x300/?training",
-//   },
-//   {
-//     id: "6",
-//     name: "Business F",
-//     address: "Jl. Cemara No. 6",
-//     phone: "0896-7777-8888",
-//     email: "businessF@example.com",
-//     description: "Kami adalah agensi kreatif yang fokus pada inovasi desain dan user experience.",
-//     imageUrl: "https://source.unsplash.com/400x300/?creative",
-//   },
-//   {
-//     id: "7",
-//     name: "Business G",
-//     address: "Jl. Sakura No. 7",
-//     phone: "0838-9999-0000",
-//     email: "businessG@example.com",
-//     description: "Platform marketplace lokal untuk produk-produk handmade dan kerajinan asli Indonesia.",
-//     imageUrl: "https://source.unsplash.com/400x300/?market",
-//   },
-//   {
-//     id: "8",
-//     name: "Business H",
-//     address: "Jl. Teratai No. 8",
-//     phone: "0819-1234-5678",
-//     email: "businessH@example.com",
-//     description: "Konsultan teknologi dan pengembangan software custom untuk bisnis digital.",
-//     imageUrl: "https://source.unsplash.com/400x300/?technology",
-//   },
-// ];
+import NavBar from "../components/NavBar";
+import Footer from "../components/Footer";
+import Card from "../components/Card";
+import { useFetchProjects } from "../api/useFetchProjects";
 
 const HomePage = () => {
+  const { projects, projectLoading, projectError, fetchProjects } = useFetchProjects();
 
-    const {projects, projectLoading, projectError, fetchProjects} = useFetchProjects();
-  // useEffect({}, [])
   useEffect(() => {
     fetchProjects();
   }, []);
+
+  const featured = projects.slice(0, 3);
+
+  const trail = useTrail(featured.length, {
+    from: { opacity: 0, transform: "translateY(20px)" },
+    to: { opacity: 1, transform: "translateY(0px)" },
+    config: { mass: 1, tension: 200, friction: 20 },
+    delay: 200,
+  });
+
   return (
     <section>
       <NavBar />
 
       {/* Hero Section */}
-      <section className="relative bg-[url(/images/banner.jpg)] lg:grid lg:h-screen lg:place-content-center bg-cover bg-center bg-no-repeat w-full">
-        <div className="absolute inset-0 bg-black/40 z-0" />
-        <div className="relative z-10 mx-auto w-screen max-w-screen-xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8 lg:py-32 transition-all duration-700 ease-in-out opacity-100 translate-y-0">
-          <div className="mx-auto max-w-prose text-center text-white">
-            <h1 className="text-4xl font-bold sm:text-5xl">
-              Start <strong className="text-[#B82132]">Your Journey</strong> Today
-            </h1>
-            <p className="mt-4 text-base sm:text-lg/relaxed">
-              Temukan mitra, peluang, dan ide bisnis terbaik di satu platform.
-            </p>
-            
+      <div className="relative overflow-hidden bg-[#F9F9F9] py-16 px-6 flex items-center justify-center h-150">
+        <div
+          className="absolute inset-0 z-0 bg-cover bg-center"
+          style={{ backgroundImage: "url('/images/banner.jpg')" }}
+        >
+          <div className="w-full h-full bg-gradient-to-b from-transparent to-[#F9F9F9]" />
+        </div>
+
+        <div className="relative z-10 max-w-2xl text-center">
+          <img
+            src="/images/LandasBisnis-logo2.png"
+            alt="Logo"
+            className="mx-auto mb-6 w-50 h-auto"
+          />
+          <h2 className="text-3xl font-bold text-[#B82132] mb-4">
+            Punya Ide atau Proposal Bisnis?
+          </h2>
+          <p className="text-gray-700 mb-6">
+            Platform kami membantu mahasiswa menjembatani ide mereka dengan para investor.
+            Ayo mulai kembangkan ide proyekmu menjadi kenyataan!
+          </p>
+        </div>
+      </div>
+
+      {/* Platform in Numbers */}
+      <section className="bg-[#F9F9F9] py-16 px-6">
+        <div className="max-w-6xl mx-auto text-center">
+          <h2 className="text-3xl font-bold text-[#B82132] mb-10">Platform in Numbers</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div>
+              <h3 className="text-5xl font-bold text-[#B82132]">500+</h3>
+              <p className="text-gray-600 mt-2">Proposal Diajukan</p>
+            </div>
+            <div>
+              <h3 className="text-5xl font-bold text-[#B82132]">150+</h3>
+              <p className="text-gray-600 mt-2">Investor Terlibat</p>
+            </div>
+            <div>
+              <h3 className="text-5xl font-bold text-[#B82132]">300+</h3>
+              <p className="text-gray-600 mt-2">Proyek Didanai</p>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Cards Section */}
-      <h2 className="text-3xl font-bold text-center text-[#B82132] mt-16 mb-8">Popular Projects</h2>
+      {/* Featured Projects */}
+      <section className="max-w-6xl mx-auto px-4 py-10">
+        <h1 className="text-3xl font-bold text-center mb-8 text-[#B82132]">Featured Projects</h1>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {trail.map((style, i) => (
+            <animated.div key={featured[i].id} style={style}>
+              <Card {...featured[i]} />
+            </animated.div>
+          ))}
+        </div>
+      </section>
 
-      <div className="m-10 grid gap-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {projects.map((data, index) => (
-          <div
-  key={data.id}
-  className={`opacity-0 translate-y-4 animate-[fadeIn_0.6s_ease-out_forwards] transition-transform duration-500 ease-in-out hover:scale-105 hover:shadow-lg`}
-  style={{
-    animationDelay: `${index * 100}ms`,
-  }}
->
-  <Card {...data} />
-</div>
+      {/* How It Works */}
+      <section className="bg-[#F6DED8] py-16 px-6 text-center">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="text-3xl font-bold text-[#B82132] mb-6">How It Works</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
+            <div>
+              <h3 className="text-xl font-semibold text-[#B82132] mb-2">1. Ajukan Proposal</h3>
+              <p className="text-gray-700">
+                Mahasiswa membuat akun dan mengunggah ide atau proposal bisnis mereka melalui formulir yang tersedia.
+              </p>
+            </div>
+            <div>
+              <h3 className="text-xl font-semibold text-[#B82132] mb-2">2. Tampil di Platform</h3>
+              <p className="text-gray-700">
+                Proposal yang lolos kurasi akan tampil di beranda dan dapat diakses oleh investor yang tertarik.
+              </p>
+            </div>
+            <div>
+              <h3 className="text-xl font-semibold text-[#B82132] mb-2">3. Dapatkan Investor</h3>
+              <p className="text-gray-700">
+                Investor dapat menghubungi mahasiswa secara langsung untuk mendiskusikan potensi pendanaan dan kolaborasi.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
 
-        ))}
-      </div>
+      {/* FAQ */}
+      <section className="bg-white py-16 px-6">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="text-3xl font-bold text-center text-[#B82132] mb-10">Pertanyaan Umum</h2>
+          <div className="space-y-6">
+            {[
+              {
+                q: "Bagaimana cara memulai proyek?",
+                a: "Klik tombol 'Start Project', isi formulir, dan unggah proposal Anda untuk ditinjau.",
+              },
+              {
+                q: "Apakah platform ini hanya untuk mahasiswa?",
+                a: "Ya, platform ini ditujukan khusus untuk mahasiswa Indonesia yang ingin memulai proyek bisnis.",
+              },
+              {
+                q: "Apakah investor benar-benar bisa melihat semua proyek saya?",
+                a: "Ya, investor yang tergabung akan melihat proyek yang telah dikurasi dan dipublikasikan.",
+              },
+            ].map((item, i) => (
+              <div key={i} className="border-b pb-4">
+                <h3 className="text-lg font-semibold text-[#B82132]">{item.q}</h3>
+                <p className="text-gray-700 mt-1">{item.a}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
-      {/* Start Project Section */}
-      <section className="bg-[#F6DED8] py-16 px-6 text-center transition-all duration-700 ease-in-out opacity-100 translate-y-0">
-        <div className="max-w-3xl mx-auto">
-          <h2 className="text-3xl font-bold text-[#B82132] mb-4">Punya Ide atau Proposal Bisnis?</h2>
-          <p className="text-gray-700 mb-6">
-            Kami membuka peluang bagi Anda untuk mengajukan proposal dan memulai kolaborasi bersama.
-            Jika Anda memiliki ide inovatif, proyek sosial, atau rencana bisnis yang potensial, ayo mulai sekarang!
-          </p>
+      {/* CTA Involvement */}
+      <section className="bg-[#B82132] text-white py-12 px-6 text-center">
+        <h2 className="text-3xl font-bold mb-4">Ingin Terlibat Lebih Dalam?</h2>
+        <p className="mb-6">Bergabunglah sebagai mitra atau berikan testimoni Anda untuk menginspirasi yang lain.</p>
+        <div className="flex justify-center gap-4 flex-wrap">
           <Link
-            to="/start-project"
-            className="inline-block bg-[#B82132] text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-[#D2665A] hover:scale-105 transition duration-300"
+            to="/register"
+            className="bg-white text-[#B82132] font-semibold px-6 py-2 rounded-full hover:bg-[#F6DED8] transition"
           >
-            Start Project
+            Daftar Sekarang
+          </Link>
+          <Link
+            to="/contact-us"
+            className="bg-white text-[#B82132] font-semibold px-6 py-2 rounded-full hover:bg-[#F6DED8] transition"
+          >
+            Berikan Testimoni
           </Link>
         </div>
       </section>
 
-
-    <section className="bg-[#F9F9F9] py-16 px-6">
-  <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-10">
-    {/* Gambar */}
-    <div className="md:w-1/2">
-      <img
-        src="/images/abtus.jpg"
-        alt="About Us"
-        className="rounded-lg shadow-lg object-cover w-full h-auto"
-      />
-    </div>
-
-    {/* Teks */}
-    <div className="md:w-1/2 text-center md:text-left">
-      <h2 className="text-4xl font-bold text-[#B82132] mb-6">About Us</h2>
-      <p className="text-gray-700 text-lg leading-relaxed">
-        Website ini telah membantu ratusan mahasiswa dan pelaku usaha untuk menemukan peluang
-        bisnis dan memperluas jaringan kolaborasi. Kami berkomitmen memberikan platform terbaik
-        untuk menghubungkan ide, inovasi, dan eksekusi dalam dunia bisnis.
-      </p>
-      <p className="mt-4 text-gray-600">
-        Bergabunglah bersama kami dan jadikan ide Anda kenyataan melalui dukungan dan kolaborasi
-        yang kami fasilitasi.
-      </p>
-    </div>
-  </div>
-</section>
-
-
+      {/* Testimonials */}
+      <section className="bg-white py-16 px-6">
+        <div className="max-w-6xl mx-auto text-center">
+          <h2 className="text-3xl font-bold text-[#B82132] mb-8">What People Are Saying</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              {
+                name: "Ayu Setiawan",
+                text: "Platform ini sangat membantu saya menemukan investor untuk startup kampus saya.",
+                avatar: "https://i.pravatar.cc/100?img=1",
+              },
+              {
+                name: "Budi Santoso",
+                text: "Saya berhasil mendapatkan modal awal untuk ide saya hanya dalam 2 minggu.",
+                avatar: "https://i.pravatar.cc/100?img=2",
+              },
+              {
+                name: "Citra Lestari",
+                text: "Sangat mudah digunakan dan dukungan timnya sangat responsif.",
+                avatar: "https://i.pravatar.cc/100?img=3",
+              },
+            ].map((t, i) => (
+              <div key={i} className="bg-[#F6DED8] p-6 rounded-lg shadow-md">
+                <img src={t.avatar} alt={t.name} className="w-16 h-16 rounded-full mx-auto mb-4" />
+                <p className="text-gray-700 italic mb-2">"{t.text}"</p>
+                <h4 className="text-[#B82132] font-semibold">{t.name}</h4>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
       <Footer />
     </section>
