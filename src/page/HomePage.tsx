@@ -152,7 +152,7 @@ const HomePage = () => {
             Daftar Sekarang
           </Link>
           <Link
-            to="/testimonials"
+            to="/contact-us"
             className="bg-white text-[#B82132] font-semibold px-6 py-2 rounded-full hover:bg-[#F6DED8] transition"
           >
             Berikan Testimoni

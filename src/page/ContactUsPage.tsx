@@ -2,9 +2,13 @@ import React, { useState } from "react";
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
 import { useCreateFeedback } from "../api/useCreateFeedback";
-
+import { useEffect } from "react";
 
 const ContactUsPage: React.FC = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const { createFeedback } = useCreateFeedback();
   const [submitted, setSubmitted] = useState(false);
 

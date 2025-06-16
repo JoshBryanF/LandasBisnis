@@ -5,8 +5,13 @@ import { useAuthUser } from "../auth/auth";
 import { Pencil, Camera } from "lucide-react";
 import { axiosInstance } from "../lib/axiosInstance";
 import { useNavigate } from "react-router";
+import { useEffect } from "react";
 
 const ProfilePage = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+  
   const navigate = useNavigate();
 
   const user = useAuthUser();
